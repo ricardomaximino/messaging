@@ -109,30 +109,20 @@ public class ContactServiceImpl implements ContactService{
 
 	@Override
 	public Mono<Contact> setActivities(String operatorId, String contactId, List<Activity> activityList) {
-		return contactRepository.findById(contactId).flatMap(c -> {
-			c.setActivityList(activityList);
-			return contactRepository.save(c);
-		});
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Mono<Boolean> existActivity(String contactId, String activityId) {
-		return contactRepository.findById(contactId).map(c -> {
-			for(Activity a : c.getActivityList()) {
-				if(a.getId().equals(activityId)) return true;
-			}
-			return false;
-		});
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Mono<Contact> removeActivity(String operatorId, String contactId, String activityId) {
-		return contactRepository.findById(contactId).flatMap(c -> {
-			for(Activity a : c.getActivityList()) {
-				if(a.getId().equals(activityId)) c.getActivityList().remove(a);
-			}
-			return contactRepository.save(c);
-		});
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

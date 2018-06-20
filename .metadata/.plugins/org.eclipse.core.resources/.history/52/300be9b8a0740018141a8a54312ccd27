@@ -60,7 +60,7 @@ public interface ContactService {
 	 * @param ResultId the result id
 	 * @return the flux
 	 */
-	public Flux<Contact> findByResultId(String resultId);
+	public Flux<Contact> findByResultId(String ResultId);
 	
 	/**
 	 * Find by origin.

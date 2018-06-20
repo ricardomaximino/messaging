@@ -82,57 +82,44 @@ public class ContactServiceImpl implements ContactService{
 	}
 
 	@Override
-	public Flux<Contact> findByResultId(String resultId) {
+	public Flux<Contact> findByResultId(String ResultId) {
 		return contactRepository.findByResultId(resultId);
 	}
 
 	@Override
 	public Flux<Contact> findByOrigin(String origin) {
-		return contactRepository.findByOrigin(origin);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Mono<Contact> addActivity(String operatorId, String contactId, Activity activity) {
-		return contactRepository.findById(contactId).flatMap(c -> {
-			c.getActivityList().add(activity);
-			return contactRepository.save(c);
-		});
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Mono<Contact> addActivities(String operatorId, String contactId, List<Activity> activityList) {
-		return contactRepository.findById(contactId).flatMap(c -> {
-			c.getActivityList().addAll(activityList);
-			return contactRepository.save(c);
-		});
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Mono<Contact> setActivities(String operatorId, String contactId, List<Activity> activityList) {
-		return contactRepository.findById(contactId).flatMap(c -> {
-			c.setActivityList(activityList);
-			return contactRepository.save(c);
-		});
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Mono<Boolean> existActivity(String contactId, String activityId) {
-		return contactRepository.findById(contactId).map(c -> {
-			for(Activity a : c.getActivityList()) {
-				if(a.getId().equals(activityId)) return true;
-			}
-			return false;
-		});
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Mono<Contact> removeActivity(String operatorId, String contactId, String activityId) {
-		return contactRepository.findById(contactId).flatMap(c -> {
-			for(Activity a : c.getActivityList()) {
-				if(a.getId().equals(activityId)) c.getActivityList().remove(a);
-			}
-			return contactRepository.save(c);
-		});
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

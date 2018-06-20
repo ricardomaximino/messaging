@@ -9,7 +9,5 @@ import reactor.core.publisher.Flux;
 public interface ContactRepository extends ReactiveMongoRepository<Contact, String>{
 	
 	Flux<Contact> findByProfileId(String profileId);
-	Flux<Contact> findByResultId(String resultId);
-	Flux<Contact> findByOrigin(String origin);
 
 }
