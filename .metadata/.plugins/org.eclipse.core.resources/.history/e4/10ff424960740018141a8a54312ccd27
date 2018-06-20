@@ -1,0 +1,69 @@
+package com.verisure.vcp.newmicroservice.service;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Contact;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+
+/**
+ * The Interface ContactService.
+ */
+public interface ContactService {
+	
+	/**
+	 * Save.
+	 *
+	 * @param contact the contact
+	 * @return the mono
+	 */
+	public Mono<Contact> save(Contact contact);
+	
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the mono
+	 */
+	public Mono<Contact> findById(String id);
+	
+	/**
+	 * Delete by id.
+	 *
+	 * @param id the id
+	 * @return the mono
+	 */
+	public Mono<Boolean> deleteById(String id);
+	
+	/**
+	 * Find all.
+	 *
+	 * @return the flux
+	 */
+	public Flux<Contact> findAll();
+	
+	/**
+	 * Find by profile id.
+	 *
+	 * @param profileId the profile id
+	 * @return the flux
+	 */
+	public Flux<Contact> findByProfileId(String profileId);
+	
+	/**
+	 * Find by result id.
+	 *
+	 * @param ResultId the result id
+	 * @return the flux
+	 */
+	public Flux<Contact> findByResultId(String ResultId);
+	
+	/**
+	 * Find by origin.
+	 *
+	 * @param origin the origin
+	 * @return the flux
+	 */
+	public Flux<Contact> findByOrigin(String origin);
+
+}

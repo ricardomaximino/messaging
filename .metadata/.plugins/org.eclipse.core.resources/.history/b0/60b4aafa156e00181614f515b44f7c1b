@@ -1,0 +1,51 @@
+package com.brasajava.rabbitstreamreceiverone.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.messaging.Message;
+
+import com.brasajava.rabbitstreamreceiverone.domain.Contact;
+import com.brasajava.rabbitstreamreceiverone.domain.ContactErrorEvent;
+import com.brasajava.rabbitstreamreceiverone.domain.ContactEvent;
+import com.brasajava.rabbitstreamreceiverone.repository.ContactRepository;
+
+@EnableBinding(Sink.class)
+public class ReceiverService {
+	List<Contact> contacts = new ArrayList<>();
+	@Autowired
+	private ContactRepository repository;
+	
+	@Autowired
+	DataBaseNotUpdateErrorSenderService dataBaseNotUpdateErrorSenderService;
+	
+	@StreamListener(Sink.INPUT)
+	public void receive(Message<ContactEvent> event) {
+		Optional<Contact> contact = repository.findById(event.getPayload().getContactId());
+		if(contact.isPresent()) {
+			contacts.add(contact.get());	
+			System.out.println("Contact added to the list was -> " + contact.get());
+			System.out.println("The received Headers -> " + event.getHeaders());
+			
+		}else {
+			ContactErrorEvent errorEvent = new ContactErrorEvent("02", event.getPayload().getContactId());
+			dataBaseNotUpdateErrorSenderService.send(errorEvent);
+			System.out.println("The contact with id: " + event.getPayload().getContactId() + " is not present on the DataBase.");
+			System.out.println("Sent event with the Contact Update Error -> " + errorEvent);
+		}
+	}
+
+	public List<Contact> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(List<Contact> contacts) {
+		this.contacts = contacts;
+	}
+	
+}

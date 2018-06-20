@@ -1,0 +1,5 @@
+package com.brasajava.springbootwebsocketone.controller;
+
+public class ChatController {
+
+}

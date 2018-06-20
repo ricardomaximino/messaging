@@ -1,0 +1,9 @@
+package com.brasajava.springbootreactivewebsockettwo.utils;
+
+public class Constant {
+
+	private Constant() throws IllegalAccessException {
+		throw new IllegalAccessException("This class should not been initialized");
+	}
+
+}

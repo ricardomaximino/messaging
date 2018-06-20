@@ -1,0 +1,19 @@
+1528960399131	Rename type 'ContactMongService'
+1528961743050	Rename field 'saveContactEventSender'
+1528961749567	Rename field 'createContactEventSender'
+1528961757315	Rename field 'deleteContactEventSender'
+1528965534999	Delete element
+1528967661602	Rename type 'PersonMongoService'
+1528968514513	Rename local variable 'c'
+1528968530056	Rename local variable 'con'
+1528968598292	Rename local variable 'c'
+1529052191087	Rename resource 'application.properties'
+1529087484010	Rename local variable 'c'
+1529088123270	Move file
+1529088164845	Delete element
+1529092373223	Rename local variable 'fc'
+1529093550579	Rename field 'createPersonEventSender'
+1529093564894	Rename field 'deletePersonEventSender'
+1529094243536	Rename local variable 'fc'
+1529101525850	Copy file
+1529103845021	Rename local variable 'p'

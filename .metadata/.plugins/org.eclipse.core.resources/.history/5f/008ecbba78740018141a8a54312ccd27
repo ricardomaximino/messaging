@@ -1,0 +1,19 @@
+package com.verisure.vcp.newmicroservice.service;
+
+import com.verisure.vcp.newmicroservice.api.dto.SkillsDTO;
+import com.verisure.vcp.newmicroservice.domain.entity.Skills;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+public interface SkillsService {
+
+	public Mono<Skills> save(SkillsDTO skillsDTO);
+	
+	public Mono<Skills> findById(String id);
+	
+	public Mono<Boolean> deleteById(String operatorId, String id);
+	
+	public Flux<Skills> findAll();
+	
+}

@@ -1,0 +1,69 @@
+package com.brasajava.springbootreactivewebsockettwo.service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.brasajava.springbootreactivewebsockettwo.domain.Contact;
+import com.brasajava.springbootreactivewebsockettwo.repository.ContactRepository;
+import com.brasajava.springbootreactivewebsockettwo.utils.EventBuilder;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+public class ContactService {
+	@Autowired
+	private ContactSenderService sender;
+	
+	@Autowired
+	private ContactRepository repository;
+	
+	
+	public Mono<Contact> save(Contact contact){
+		if(contact.getId() != null && !contact.getId().isEmpty()) {
+			return repository.existsById(contact.getId()).flatMap(exist -> {
+				if(exist) {
+					sender.sendCreatedEvent(EventBuilder.contactUpdatedEvent(contact));
+					return repository.save(contact);
+				}else {
+					sender.sendCreatedEvent(EventBuilder.contactCreatedEvent(contact));
+					return repository.save(contact);
+				}
+			});
+		}else {
+			return repository.save(contact).map(p -> {
+				sender.sendCreatedEvent(EventBuilder.contactCreatedEvent(contact));
+				return p;
+			});
+		}
+	}
+	
+	public Mono<Boolean> deleteById(String id){
+		return null;
+	}
+	
+	public Mono<Long> count(){
+		return repository.count();
+	}
+	
+	public Flux<Contact> findAll() {
+		return null;
+	}
+	
+	public Flux<Contact> findByCreateDate(LocalDate date){
+		return null;
+	}
+	
+	public Flux<Contact> findByCreateTime(LocalTime time){
+		return null;
+	}
+	
+	public Flux<Contact> findByUpdateDate(LocalDate date){
+		return null;
+	}
+	
+	public Flux<Contact> findByUpdateTime(LocalTime time){
+		return null;
+	}
+}

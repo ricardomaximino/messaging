@@ -1,0 +1,22 @@
+<table class="table table-hover table-dark" style="color:black;">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [ngStyle]="{'background-color': getColor(event.type)}" *ngFor="let event of contactEvents | async; let index = index">
+      <th scope="row">{{index}}</th>
+      <td>{{event.id}}</td>
+      <td>{{event.type}}</td>
+      <td>{{event.contactId}}</td>
+      <td>{{event.sendDate}}</td>
+      <td>{{event.sendTime}}</td>
+      <td>{{event.receiveDate}}</td>
+      <td>{{event.receiveTime}}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,50 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Contact;
+import com.brasajava.rabbitstreamreactiveone.repository.ContactRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class ContactService {
+	private static final String CONTACT_CREATED = "The contact was created successfully";
+	private static final String CONTACT_SAVED = "The contact was saved successfully";
+	private static final String CONTACT_NOT_SAVED = "The contact was NOT saved in the database";
+	private static final String CONTACT_DELETE = "The contact was deleted from the database";
+	private int createdInt = 0;
+	private int savedInt = 0;
+	private int notSavedInt = 0;
+	private int deletedInt = 0;
+
+	@Autowired
+	private ContactRepository repository;
+
+	@Autowired
+	private ContactSenderService sender;
+
+
+	public Mono<Contact> save(Contact contact) {
+		return null;
+	}
+	
+	public Mono<Contact> findById(String id){
+		return null;
+	}
+	
+	public Flux<Contact> findAll(){
+		return null;
+	}
+
+	public Mono<Long> count(){
+		return repository.count();
+	}
+	
+	public Mono<Boolean> deleteById(String id){
+		return null;
+	}
+	
+}

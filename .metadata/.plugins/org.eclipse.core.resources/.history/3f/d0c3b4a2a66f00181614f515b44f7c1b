@@ -1,0 +1,32 @@
+server.port=8090
+
+spring.cloud.stream.bindings.input.destination=stream-reactive-one
+spring.cloud.stream.bindings.input.group=reactive-grupo
+spring.cloud.stream.bindings.output.destination=stream-reactive-one
+spring.cloud.stream.bindings.output.group=reactive-grupo
+#spring.cloud.stream.bindings.error.destination= error
+
+spring.cloud.stream.bindings.deleteContact.destination=stream-reactive-one-customized-delete-contact
+spring.cloud.stream.bindings.deleteContact.group=reactive-grupo-customized-delete
+spring.cloud.stream.bindings.listenDeleteContact.destination=stream-reactive-one-customized-delete-contact
+spring.cloud.stream.bindings.listenDeleteContact.group=reactive-grupo-customized-delete
+
+spring.cloud.stream.bindings.createContact.destination=stream-reactive-one-customized-create-contact
+spring.cloud.stream.bindings.createContact.group=reactive-grupo-customized-create
+spring.cloud.stream.bindings.listenCreateContact.destination=stream-reactive-one-customized-create-contact
+spring.cloud.stream.bindings.listenCreateContact.group=reactive-grupo-customized-create
+
+spring.cloud.stream.bindings.saveContact.destination=stream-reactive-one-customized-save-contact
+spring.cloud.stream.bindings.saveContact.group=reactive-grupo-customized-save
+spring.cloud.stream.bindings.listenSaveContact.destination=stream-reactive-one-customized-save-contact
+spring.cloud.stream.bindings.listenSaveContact.group=reactive-grupo-customized-save
+
+spring.cloud.stream.bindings.notSavedContact.destination=stream-reactive-one-customized-not-saved-contact
+spring.cloud.stream.bindings.notSavedContact.group=reactive-grupo-customized-not-saved
+spring.cloud.stream.bindings.listenNotSavedContact.destination=stream-reactive-one-customized-not-saved-contact
+spring.cloud.stream.bindings.listenNotSavedContact.group=reactive-grupo-customized-not-saved
+
+spring.rabbitmq.password=guest
+spring.rabbitmq.username=guest
+spring.data.mongodb.uri= mongodb://localhost/spring
+spring.profiles.active=dev

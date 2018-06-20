@@ -1,0 +1,136 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.verisure.vcp.newmicroservice.api.converter.ProfileConverter;
+import com.verisure.vcp.newmicroservice.api.dto.ProfileDTO;
+import com.verisure.vcp.newmicroservice.common.utils.EventBuilder;
+import com.verisure.vcp.newmicroservice.domain.entity.Profile;
+import com.verisure.vcp.newmicroservice.domain.repository.ProfileRepository;
+import com.verisure.vcp.newmicroservice.service.ProfileEventSender;
+import com.verisure.vcp.newmicroservice.service.ProfileService;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+/**
+ * Sample service implementation.
+ *
+ * @since 1.0.0
+ * @author FaaS [faas@securitasdirect.es]
+ */
+@Service
+@Slf4j
+public class ProfileServiceImpl implements ProfileService {
+
+    @Autowired
+    private ProfileRepository repository;
+    
+    @Autowired
+    private ProfileConverter converter;
+    
+    @Autowired
+    private ProfileEventSender sender;
+
+	@Override
+	public Mono<Profile> save(ProfileDTO profileDTO) {
+		if(profileDTO.getId() != null && !profileDTO.getId().isEmpty()) {
+			return repository.existsById(profileDTO.getId()).flatMap(exist -> {
+				if(exist) {
+					LOGGER.debug("UPDATE PROFILE ON THE DATABASE");
+					sender.sendUpdatedEvent(EventBuilder.updatedEvent(profileDTO));
+					return repository.save(setOnUpdate(converter.toProfile(profileDTO)));
+				}else {
+					LOGGER.debug("CREATE PROFILE ON THE DATABASE");
+					sender.sendCreatedEvent(EventBuilder.createdEvent(profileDTO));
+					return repository.save(setOnCreate(converter.toProfile(profileDTO)));
+				}
+			});
+		}else {
+			return repository.save(setOnCreate(converter.toProfile(profileDTO))).map(p -> {
+				LOGGER.debug("CREATE PROFILE ON THE DATABASE");
+				sender.sendCreatedEvent(EventBuilder.createdEvent(profileDTO));
+				return p;
+			});
+		}
+	}
+
+	@Override
+	public Mono<Profile> findById(String id) {
+		LOGGER.debug("FIND PROFILE BY ID FROM DATABASE");
+		return repository.findById(id);
+	}
+
+	@Override
+	public Mono<Boolean> deleteById(String id, String operator) {
+		return repository.existsById(id).flatMap(exist -> {
+			if(exist) {
+				repository.findById(id).subscribe(p -> 	sender.sendDeletedEvent(EventBuilder.deletedEvent(p, operator)));
+				LOGGER.debug("DELETE PROFILE ON THE DATABASE");
+				return repository.deleteById(id).map(p -> true);
+			}
+			return Mono.just(new Boolean(false));
+		});
+	}
+
+	@Override
+	public Mono<Long> count() {
+		LOGGER.debug("COUNT PROFILE FROM THE DATABASE");
+		return repository.count();
+	}
+
+	@Override
+	public Flux<Profile> findAll() {
+		LOGGER.debug("FIND ALL PROFILE FROM DATABASE");
+		return repository.findAll();
+	}
+
+	@Override
+	public Flux<Profile> findByBirthday(LocalDate date) {
+		LOGGER.debug("FIND ALL PROFILE FROM DATABASE THAT MATCHES THE BIRTHDAY DATE SPECIFIED");
+		return repository.findByBirthday(date);
+	}
+
+	@Override
+	public Flux<Profile> findByCreateDate(LocalDate date) {
+		return repository.findByCreateDate(date);
+	}
+
+	@Override
+	public Flux<Profile> findByCreateTime(LocalTime time) {
+		return repository.findByCreateTime(time);
+	}
+
+	@Override
+	public Flux<Profile> findByUpdateDate(LocalDate date) {
+		return repository.findByUpdateDate(date);
+	}
+
+	@Override
+	public Flux<Profile> findByUpdateTime(LocalTime time) {
+		return repository.findByUpdateTime(time);
+	}
+	
+	private Profile setOnCreate(Profile profile) {
+		LocalDate date = LocalDate.now();
+		LocalTime time = LocalTime.now();
+		profile.setCreateDate(date);
+		profile.setCreateTime(time);
+		profile.setUpdateDate(date);
+		profile.setUpdateTime(time);
+		return profile;
+	}
+
+	private Profile setOnUpdate(Profile profile) {
+		LocalDate date = LocalDate.now();
+		LocalTime time = LocalTime.now();
+		profile.setUpdateDate(date);
+		profile.setUpdateTime(time);
+		return profile;
+	}
+}

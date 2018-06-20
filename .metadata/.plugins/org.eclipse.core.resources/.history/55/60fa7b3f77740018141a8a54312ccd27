@@ -1,0 +1,39 @@
+package com.verisure.vcp.newmicroservice.api.dto;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Result;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class AcitivityDTO {
+	
+	@ApiModelProperty(notes = "Transaction Operator id", required = true)
+	private String operator;
+	@ApiModelProperty(notes = "Activity id", required = true)
+	private String id;
+	@ApiModelProperty(notes = "Contact id", required = true)
+	private String contactId;
+	@ApiModelProperty(notes = "Activity operator id", required = true)
+	private String operatorId;
+	@ApiModelProperty(notes = "Activity start date", required = true)
+	private LocalDate startDate;
+	@ApiModelProperty(notes = "Activity start time", required = true)
+	private LocalTime startTime;
+	@ApiModelProperty(notes = "Activity end date", required = true)
+	private LocalDate endDate;
+	@ApiModelProperty(notes = "Activity end time", required = true)
+	private LocalTime endTime;
+	@ApiModelProperty(notes = "Activity result", required = true)
+	private Result result;
+
+}

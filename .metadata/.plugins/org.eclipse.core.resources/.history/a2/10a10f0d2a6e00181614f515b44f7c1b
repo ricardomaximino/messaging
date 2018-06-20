@@ -1,0 +1,5 @@
+package com.brasajava.rabbitstreamsenderone.service;
+
+public class ContactEventSenderService {
+
+}

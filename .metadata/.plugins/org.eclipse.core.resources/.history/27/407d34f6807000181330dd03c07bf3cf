@@ -1,0 +1,104 @@
+server:
+  port: 8090
+
+
+spring:
+  profiles:
+    active:
+    - dev
+# MONGO    
+  data:
+    mongodb:
+      uri: mongodb://localhost/spring
+# RABBIT      
+  rabbitmq:
+    username: guest
+    password: guest
+
+  cloud:
+    stream:
+      bindings:
+      
+# CONTACT SENDER      
+        createdContact:
+          destination: stream-reactive-one-customized-created-contact
+          #group: reactive-grupo-customized-created-contact
+
+        savedContact:
+          destination: stream-reactive-one-customized-save-contact
+          #group: reactive-grupo-customized-saved-contact
+
+        notSavedContact:
+          destination: stream-reactive-one-customized-not-saved-contact
+          #group: reactive-grupo-customized-not-saved-contact
+
+        updatedContact:
+          destination: stream-reactive-one-customized-updated-contact
+          #group: reactive-grupo-customized-updated-contact
+
+        deletedContact:
+          destination: stream-reactive-one-customized-deleted-contact
+          #group: reactive-grupo-customized-deleted-contact
+
+# CONTACT SENDER
+        listenCreatedContact:
+          destination: stream-reactive-one-customized-created-contact
+          #group: reactive-grupo-customized-created-contact
+
+        listenSavedContact:
+          destination: stream-reactive-one-customized-saved-contact
+          #group: reactive-grupo-customized-saved-contact
+
+        listenNotSavedContact:
+          destination: stream-reactive-one-customized-not-saved-contact
+          #group: reactive-grupo-customized-not-saved-contact
+
+        listenUpdatedContact: 
+          destination: stream-reactive-one-customized-updated-contact
+          #group: reactive-grupo-customized-updated-contact
+
+        listenDeletedContact:
+          destination: stream-reactive-one-customized-deleted-contact
+          #group: reactive-grupo-customized-deleted-contact
+
+# PERSON SENDER
+        createdPerson:
+          destination: stream-reactive-one-customized-create-person
+          #group: reactive-grupo-customized-created-person
+
+        savedPerson:
+          destination: stream-reactive-one-customized-saved-person
+          #group: reactive-grupo-customized-saved-person
+
+        notSavedPerson: 
+          destination: stream-reactive-one-customized-not-saved-person
+          #group: reactive-grupo-customized-not-saved-person
+
+        updatedPerson: 
+          destination: stream-reactive-one-customized-updated-person
+          #group: reactive-grupo-customized-updated-person
+
+        deletedPerson:
+          destination: stream-reactive-one-customized-delete-person
+          #group: reactive-grupo-customized-deleted-person
+
+# PERSON LISTENER
+        listenCreatedPerson:
+          destination: stream-reactive-one-customized-create-person
+          #group: reactive-grupo-customized-created-person
+
+        listenSavedPerson:
+          destination: stream-reactive-one-customized-saved-person
+          #group: reactive-grupo-customized-saved-person
+
+        listenNotSavedPerson: 
+          destination: stream-reactive-one-customized-not-saved-person
+          #group: reactive-grupo-customized-not-saved-person
+
+        listenUpdatedPerson:
+          destination: stream-reactive-one-customized-updated-person
+          #group: reactive-grupo-customized-updated-person
+
+        listenDeletedPerson:
+          destination: stream-reactive-one-customized-deleted-person
+          #group: reactive-grupo-customized-deleted-person

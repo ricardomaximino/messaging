@@ -1,0 +1,5 @@
+package com.verisure.vcp.newmicroservice.common.utils;
+
+public class ResultChannelsBinding {
+
+}

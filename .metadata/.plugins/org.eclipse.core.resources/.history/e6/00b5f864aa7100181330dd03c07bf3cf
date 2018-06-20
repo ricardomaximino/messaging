@@ -1,0 +1,5 @@
+package com.brasajava.springbootwebsocketone.domain;
+
+public class ChatMessage {
+
+}

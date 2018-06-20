@@ -1,0 +1,49 @@
+package com.brasajava.rabbitstreamsenderone.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamsenderone.domain.Contact;
+import com.brasajava.rabbitstreamsenderone.service.ContactService;
+
+@RestController
+public class ContactController {
+
+	@Autowired
+	private ContactService service;
+	
+	@GetMapping("/contact")
+	public ResponseEntity<List<Contact>> findAll(){
+		return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/contact")
+	public ResponseEntity<Contact> save(@RequestBody Contact contact){
+		return new ResponseEntity<>(service.save(contact), HttpStatus.CREATED);
+	}
+	
+	@PutMapping(value="/contact")
+	public ResponseEntity<Contact> update(@RequestBody Contact contact){
+		return new ResponseEntity<>(service.update(contact), HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping(value="/contact/{id}")
+	public ResponseEntity<?> save(@PathVariable String id){
+		if(service.delete(id)) {
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);			
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+}

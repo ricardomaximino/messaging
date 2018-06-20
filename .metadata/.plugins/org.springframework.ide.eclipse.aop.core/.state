@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="reactive-stream"/>
+<aop-project name="spring-boot-web-socket-one"/>
+<aop-project name="rabbit-stream-two"/>
+<aop-project name="rabbit-stream-sender-one"/>
+<aop-project name="rabbit-stream-one"/>
+<aop-project name="rabbit-stream-receiver-one"/>
+<aop-project name="spring-boot-reactive-web-socket-one"/>
+<aop-project name="rabbit-stream-reactive-one"/>
+</aop-reference-model>

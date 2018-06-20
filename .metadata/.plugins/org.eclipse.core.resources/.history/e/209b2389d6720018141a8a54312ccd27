@@ -1,0 +1,27 @@
+package com.brasajava.springbootreactivewebsockettwo.utils;
+
+public class ChannelBindingsConstant {
+	
+	private static final String SEND_CONTACT_CREATED = "sendContactCreated";
+	private static final String SEND_CONTACT_UPDATED = "sendContactUpdated";
+	private static final String SEND_CONTACT_DELETED = "sendContactDeleted";
+	
+	private static final String LISTEN_CONTACT_CREATED = "listenContactCreated";
+	private static final String LISTEN_CONTACT_UPDATED = "listenContactUpdated";
+	private static final String LISTEN_CONTACT_DELETED = "listenContactDeleted";
+	
+	
+	private static final String SEND_PERSON_CREATED = "sendPersonCreated";
+	private static final String SEND_PERSON_UPDATED = "sendPersonUpdated";
+	private static final String SEND_PERSON_DELETED = "sendPersonDeleted";
+	
+	private static final String LISTEN_PERSON_CREATED = "listenPersonCreated";
+	private static final String LISTEN_PERSON_UPDATED = "listenPersonUpdated";
+	private static final String LISTEN_PERSON_DELETED = "listenPersonDeleted";
+	
+	private ChannelBindingsConstant() throws IllegalAccessException{
+		throw new IllegalAccessException("This class should not be initialized");
+	}
+	
+
+}

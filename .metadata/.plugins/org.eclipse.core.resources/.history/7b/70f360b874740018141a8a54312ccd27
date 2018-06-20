@@ -1,0 +1,29 @@
+package com.verisure.vcp.newmicroservice.api.dto;
+
+import java.util.List;
+
+import com.verisure.vcp.newmicroservice.api.dto.CampaignDTO.CampaignDTOBuilder;
+import com.verisure.vcp.newmicroservice.domain.entity.Activity;
+import com.verisure.vcp.newmicroservice.domain.entity.Contact;
+import com.verisure.vcp.newmicroservice.domain.entity.Opereator;
+import com.verisure.vcp.newmicroservice.domain.entity.Result;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ContactDTO {
+
+	private String operator;
+	private String id;
+	private String contact;
+	private String profileId;
+	private List<Activity> activityList;
+	private Result result;
+	private String origin;
+}

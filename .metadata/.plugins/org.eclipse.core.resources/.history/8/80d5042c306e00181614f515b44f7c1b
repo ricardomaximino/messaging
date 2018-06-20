@@ -1,0 +1,20 @@
+spring.cloud.stream.bindings.input.destination=microservice-one-event
+spring.cloud.stream.bindings.input.group=microservice
+spring.cloud.stream.bindings.output.destination=microservice-one-error-event
+spring.cloud.stream.bindings.output.group=microservice-error
+#spring.cloud.stream.bindings.error.destination= error
+
+spring.cloud.stream.bindings.created.destination=microservice-one-created-event
+spring.cloud.stream.bindings.created.group=microservice
+spring.cloud.stream.bindings.saved.destination=microservice-one-saved-event
+spring.cloud.stream.bindings.saved.group=microservice
+spring.cloud.stream.bindings.not-saved.destination=microservice-one-not-saved-event
+spring.cloud.stream.bindings.not-saved.group=microservice
+spring.cloud.stream.bindings.updated.destination=microservice-one-updated-event
+spring.cloud.stream.bindings.updated.group=microservice
+spring.cloud.stream.bindings.deleted.destination=microservice-one-deleted-event
+spring.cloud.stream.bindings.deleted.group=microservice
+
+server.port=8091
+spring.data.mongodb.uri= mongodb://localhost/spring
+spring.profiles.active=dev

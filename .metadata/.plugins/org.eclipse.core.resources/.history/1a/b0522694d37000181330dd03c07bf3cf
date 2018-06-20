@@ -1,0 +1,62 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Person;
+import com.brasajava.rabbitstreamreactiveone.domain.PersonEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.PersonRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class PersonService {
+		
+	@Autowired
+	private PersonRepository repository;
+	@Autowired
+	private PersonSenderService sender;
+	
+	public Mono<Person> save(Person person){
+		return repository.existsById(person.getId()).flatMap(fc -> {
+			if(fc) {
+				sender.sendPersonUpdatedEvent(new PersonEvent("04","Updated", person.getId(), person, LocalDateTime.now()));
+				return repository.save(person);
+			}else {
+				sender.sendPersonCreatedEvent(new PersonEvent("01","Created", person.getId(), person, LocalDateTime.now()));
+				return repository.save(person);
+			}
+	});
+	}
+	
+	
+	public Mono<Boolean> deleteById(String id){
+		return repository.existsById(id).flatMap(exist -> {
+			if(exist) {
+				repository.findById(id).subscribe(p -> 	sender.sendPersonDeleteEvent(new PersonEvent("05", "Deleted", p.getId(), p, LocalDateTime.now())));
+				return repository.deleteById(id).map(d -> true);
+			}
+			return Mono.just(new Boolean(false));
+		});
+	}
+		
+	public Mono<Person> findById(String id){
+		return repository.findById(id);
+	}
+	
+	public Flux<Person> findAll(){
+		return repository.findAll();
+	}
+	
+	public Flux<Person> findByCreateDate(LocalDateTime date){
+		return repository.findByCreateDate(date);
+	}
+	
+	public Flux<Person> findByUpdateDate(LocalDateTime date){
+		return repository.findByUpdateDate(date);
+	}
+	
+}

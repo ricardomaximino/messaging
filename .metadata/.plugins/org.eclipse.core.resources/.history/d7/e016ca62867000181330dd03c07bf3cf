@@ -1,0 +1,29 @@
+package com.brasajava.rabbitstreamreactiveone.channel;
+
+import org.springframework.cloud.stream.annotation.Input;
+import org.springframework.messaging.MessageChannel;
+
+public interface ContactReceiverBinding {
+	String LISTEN_CREATE_CONTACT = "listenCreatedContact";
+	String LISTEN_SAVE_CONTACT = "listenSavedContact";
+	String LISTEN_NOT_SAVED_CONTACT = "listenNotSavedContact";
+	String LISTEN_UPDATED_CONTACT = "listenUpdatedContact";
+	String LISTEN_DELETE_CONTACT = "listenDeletedContact";
+	
+	
+	@Input(LISTEN_CREATE_CONTACT)
+	public MessageChannel createdContact();
+	
+	@Input(LISTEN_SAVE_CONTACT)
+	public MessageChannel savedContact();
+	
+	@Input(LISTEN_NOT_SAVED_CONTACT)
+	public MessageChannel notSavedContact();
+	
+	@Input(LISTEN_UPDATED_CONTACT)
+	public MessageChannel updatedContact();
+
+	@Input(LISTEN_DELETE_CONTACT)
+	public MessageChannel deletedContact();
+}
+

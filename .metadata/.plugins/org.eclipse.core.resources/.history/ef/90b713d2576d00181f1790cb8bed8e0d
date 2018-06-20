@@ -1,0 +1,61 @@
+package com.brasajava.rabbitstreamreactiveone.controller;
+
+import java.time.Duration;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Contact;
+import com.brasajava.rabbitstreamreactiveone.service.ContactMongService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@RestController
+public class SenderController {
+	
+	@Autowired
+	private ContactMongService service;
+	private ResponseEntity<Mono<String>> response;
+	
+	@PostMapping(value="/save")
+	public ResponseEntity<Mono<String>> save(@RequestBody Contact contact){
+		service.save(contact).subscribe(c -> {response =service.okResponse();},error ->{response = service.koResponse();});	
+		return response;
+	}
+	
+	@PostMapping("/delete/{id}")
+	public ResponseEntity<Mono<String>> delete(@PathVariable("id") String id){
+		service.delete(id).subscribe(d -> response = service.okDelete());
+		return response;
+	}
+	
+	@GetMapping(value = "/contact", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<Contact> contact() {
+		return service.findAll();
+	}
+	
+	@GetMapping(value = "/contact/flux", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<Contact> contactflux() {
+		return service.findAll().zipWith(Flux.interval(Duration.ofMillis(100)), (a,b) -> a);
+	}
+	
+	@GetMapping("/create")
+	public ResponseEntity<Mono<String>> create(){
+		service.doTheMagic().subscribe();
+		return service.okCreate();
+	}
+	
+	@GetMapping("/forever/contact")
+	public ResponseEntity<Mono<String>> foreverContact(){
+		service.doTheMagic().subscribe();
+		return service.okCreate();
+	}
+	
+}

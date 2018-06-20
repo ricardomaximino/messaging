@@ -1,0 +1,5 @@
+package com.brasajava.rabbitstreamreactiveone.controller;
+
+public class PersonEventController {
+
+}

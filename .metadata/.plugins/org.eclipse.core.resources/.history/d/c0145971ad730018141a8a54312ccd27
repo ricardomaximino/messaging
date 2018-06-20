@@ -1,0 +1,90 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import java.time.LocalDate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.verisure.vcp.newmicroservice.api.converter.ProfileConverter;
+import com.verisure.vcp.newmicroservice.api.dto.ProfileDTO;
+import com.verisure.vcp.newmicroservice.common.utils.EventBuilder;
+import com.verisure.vcp.newmicroservice.domain.entity.Profile;
+import com.verisure.vcp.newmicroservice.domain.repository.ProfileRepository;
+import com.verisure.vcp.newmicroservice.service.ProfileEventSender;
+import com.verisure.vcp.newmicroservice.service.ProfileService;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+/**
+ * Sample service implementation.
+ *
+ * @since 1.0.0
+ * @author FaaS [faas@securitasdirect.es]
+ */
+@Service
+@Slf4j
+public class ProfileServiceImpl implements ProfileService {
+
+    @Autowired
+    private ProfileRepository repository;
+    
+    @Autowired
+    private ProfileConverter converter;
+    
+    @Autowired
+    private ProfileEventSender sender;
+
+	@Override
+	public Mono<Profile> save(ProfileDTO profileDTO) {
+		if(profileDTO.getId() != null && !profileDTO.getId().isEmpty()) {
+			return repository.existsById(profileDTO.getId()).flatMap(exist -> {
+				if(exist) {
+					sender.sendUpdatedEvent(EventBuilder.updatedEvent(profileDTO));
+					return repository.save(converter.toProfile(profileDTO));
+				}else {
+					sender.sendCreatedEvent(EventBuilder.createdEvent(profileDTO));
+					return repository.save(converter.toProfile(profileDTO));
+				}
+			});
+		}else {
+			return repository.save(converter.toProfile(profileDTO)).map(p -> {
+				sender.sendCreatedEvent(EventBuilder.createdEvent(profileDTO));
+				return p;
+			});
+		}
+	}
+
+	@Override
+	public Mono<Profile> findById(String id) {
+		return repository.findById(id);
+	}
+
+	@Override
+	public Mono<Boolean> deleteById(String id, String operator) {
+		return repository.existsById(id).flatMap(exist -> {
+			if(exist) {
+				repository.findById(id).subscribe(p -> 	sender.sendDeletedEvent(EventBuilder.deletedEvent(p, operator)));
+				return repository.deleteById(id).map(p -> true);
+			}
+			return Mono.just(new Boolean(false));
+		});
+	}
+
+	@Override
+	public Mono<Long> count() {
+		return repository.count();
+	}
+
+	@Override
+	public Flux<Profile> findAll() {
+		return repository.findAll();
+	}
+
+	@Override
+	public Flux<Profile> findByBirthday(LocalDate date) {
+		return repository.findByBirthday(date);
+	}
+
+}

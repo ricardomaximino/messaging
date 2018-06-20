@@ -1,0 +1,51 @@
+package com.brasajava.springbootreactivewebsockettwo.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.cloud.stream.reactive.FluxSender;
+import org.springframework.cloud.stream.reactive.StreamEmitter;
+
+import com.brasajava.springbootreactivewebsockettwo.domain.Event;
+import com.brasajava.springbootreactivewebsockettwo.utils.ChannelBindingsConstant;
+
+import reactor.core.publisher.Flux;
+
+public class ContactSenderService {
+	private static final Logger log = LoggerFactory.getLogger(ContactSenderService.class);
+	
+	private FluxSender createdFluxSender;
+	private FluxSender updatedFluxSender;
+	private FluxSender deletedFluxSender;
+	
+	@StreamEmitter
+	public void setCreatedEvent(@Output(ChannelBindingsConstant.SEND_CONTACT_CREATED) FluxSender sender) {
+		this.createdFluxSender = sender;
+	}
+	
+	@StreamEmitter
+	public void setUpdatedEvent(@Output(ChannelBindingsConstant.SEND_CONTACT_UPDATED) FluxSender sender) {
+		this.updatedFluxSender = sender;
+	}
+
+	@StreamEmitter
+	public void setDeletedEvent(@Output(ChannelBindingsConstant.SEND_CONTACT_DELETED) FluxSender sender) {
+		this.deletedFluxSender = sender;
+	}
+	
+
+	public void sendCreatedEvent(Event event) {
+		createdFluxSender.send(Flux.just(event));
+		log.info("Send CONTACT CREATED event. CONTACT ID => ");
+	}
+	
+	public void sendUpdatedEvent(Event event) {
+		updatedFluxSender.send(Flux.just(event));
+		log.info("Send CONTACT UPDATED event. CONTACT ID => ");
+	}
+
+	public void sendDeletedEvent(Event event) {
+		deletedFluxSender.send(Flux.just(event));
+		log.info("Send CONTACT DELETED event. CONTACT ID => ");
+	}
+}

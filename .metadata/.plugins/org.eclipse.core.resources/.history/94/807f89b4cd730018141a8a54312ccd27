@@ -1,0 +1,8 @@
+package com.verisure.vcp.newmicroservice.common.utils;
+
+public class ResultChannelsBinding {
+
+	private ResultChannelsBinding() throws IllegalAccessException {
+		throw new IllegalAccessException("This class should not be initialized");
+	}
+}

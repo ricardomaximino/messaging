@@ -1,0 +1,181 @@
+package com.brasajava.rabbitstreamreceiverone.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreceiverone.domain.Chart;
+import com.brasajava.rabbitstreamreceiverone.domain.ContactEvent;
+import com.brasajava.rabbitstreamreceiverone.repository.ContactEventRepository;
+
+@RestController
+@CrossOrigin(origins = "*")
+public class ContactEventController {
+
+	@Autowired
+	private ContactEventRepository repository;
+
+	@GetMapping("/event")
+	public ResponseEntity<List<ContactEvent>> findAll() {
+		return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/event", params = "created")
+	public ResponseEntity<List<ContactEvent>> created() {
+		return new ResponseEntity<>(repository.findByType("01"), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/event", params = "saved")
+	public ResponseEntity<List<ContactEvent>> saved() {
+		return new ResponseEntity<>(repository.findByType("02"), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/event", params = "not-saved")
+	public ResponseEntity<List<ContactEvent>> notSaved() {
+		return new ResponseEntity<>(repository.findByType("03"), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/event", params = "updated")
+	public ResponseEntity<List<ContactEvent>> updated() {
+		return new ResponseEntity<>(repository.findByType("04"), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/event", params = "deleted")
+	public ResponseEntity<List<ContactEvent>> deleted() {
+		return new ResponseEntity<>(repository.findByType("05"), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/event", params = "json")
+	public ResponseEntity<String> chartString() {
+		String json = "{\r\n" + 
+				"  chart: {\r\n" + 
+				"    type: 'spline'\r\n" + 
+				"  },\r\n" + 
+				"\r\n" + 
+				"  title: {\r\n" + 
+				"      text: 'Solar Employment Growth by Sector, 2010-2016'\r\n" + 
+				"  },\r\n" + 
+				"\r\n" + 
+				"  subtitle: {\r\n" + 
+				"      text: 'Source: thesolarfoundation.com'\r\n" + 
+				"  },\r\n" + 
+				"\r\n" + 
+				"  xAxis: {\r\n" + 
+				"    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']\r\n" + 
+				"  },\r\n" + 
+				"\r\n" + 
+				"  yAxis: {\r\n" + 
+				"      title: {\r\n" + 
+				"          text: 'Number of Employees'\r\n" + 
+				"      }\r\n" + 
+				"  },\r\n" + 
+				"  legend: {\r\n" + 
+				"      layout: 'vertical',\r\n" + 
+				"      align: 'right',\r\n" + 
+				"      verticalAlign: 'middle'\r\n" + 
+				"  },\r\n" + 
+				"\r\n" + 
+				"  plotOptions: {\r\n" + 
+				"      series: {\r\n" + 
+				"          label: {\r\n" + 
+				"              connectorAllowed: false\r\n" + 
+				"          },\r\n" + 
+				"          pointStart: 0\r\n" + 
+				"      }\r\n" + 
+				"  },\r\n" + 
+				"\r\n" + 
+				"  series: [{\r\n" + 
+				"      name: 'Installation',\r\n" + 
+				"      data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]\r\n" + 
+				"  } , {\r\n" + 
+				"      name: 'Manufacturing',\r\n" + 
+				"      data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]\r\n" + 
+				"  }, {\r\n" + 
+				"      name: 'Sales & Distribution',\r\n" + 
+				"      data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]\r\n" + 
+				"  }, {\r\n" + 
+				"      name: 'Project Development',\r\n" + 
+				"      data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]\r\n" + 
+				"  }, {\r\n" + 
+				"      name: 'Other',\r\n" + 
+				"      data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]\r\n" + 
+				"  } ],\r\n" + 
+				"\r\n" + 
+				"  responsive: {\r\n" + 
+				"      rules: [{\r\n" + 
+				"          condition: {\r\n" + 
+				"              maxWidth: 500\r\n" + 
+				"          },\r\n" + 
+				"          chartOptions: {\r\n" + 
+				"              legend: {\r\n" + 
+				"                  layout: 'horizontal',\r\n" + 
+				"                  align: 'center',\r\n" + 
+				"                  verticalAlign: 'bottom'\r\n" + 
+				"              }\r\n" + 
+				"          }\r\n" + 
+				"      }]\r\n" + 
+				"  }\r\n" + 
+				"\r\n" + 
+				"}";
+		return new ResponseEntity<>(json, HttpStatus.OK);
+	}
+	@GetMapping(value = "/event", params = "chart")
+	public ResponseEntity<List<Chart>> chart() {
+		List<Chart> series = new ArrayList<>();
+		Chart createChart = this.init(new Chart("created"));
+		Chart saveChart = this.init(new Chart("saved"));
+		Chart notSaveChart = this.init(new Chart("not-saved"));
+		Chart updateChart = this.init(new Chart("updated"));
+		Chart deleteChart = this.init(new Chart("deleted"));
+		series.add(createChart);
+		series.add(saveChart);
+		series.add(notSaveChart);
+		series.add(updateChart);
+		series.add(deleteChart);
+		Long count = 0L;
+		int hour = 0;
+		for (ContactEvent event : repository.findAll()) {
+			switch (event.getType()) {
+			case "01":
+				hour = event.getSendTime().getHour();
+				count = createChart.getData().get(hour) + 1;
+				createChart.getData().add(hour, count);
+				break;
+			case "02":
+				hour = event.getSendTime().getHour();
+				count = saveChart.getData().get(hour) + 1;
+				saveChart.getData().add(hour, count);
+				break;
+			case "03":
+				hour = event.getSendTime().getHour();
+				count = notSaveChart.getData().get(hour) + 1;
+				notSaveChart.getData().add(hour, count);
+				break;
+			case "04":
+				hour = event.getSendTime().getHour();
+				count = updateChart.getData().get(hour) + 1;
+				updateChart.getData().add(hour, count);
+				break;
+			case "05":
+				hour = event.getSendTime().getHour();
+				count = deleteChart.getData().get(hour) + 1;
+				deleteChart.getData().add(hour, count);
+				break;
+			}
+		}
+		return new ResponseEntity<>(series, HttpStatus.OK);
+	}
+	
+	private Chart init(Chart chart) {
+		for(int i = 0; i < 24; i++) {
+			chart.getData().add(0L);
+		}
+		return chart;
+	}
+}

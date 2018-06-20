@@ -1,0 +1,23 @@
+package com.brasajava.rabbitstreamsenderone.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamsenderone.domain.Contact;
+import com.brasajava.rabbitstreamsenderone.repository.ContactRepository;
+
+
+@Service
+public class ContactServer {
+
+	@Autowired
+	private ContactRepository repository;
+	@Autowired
+	private ContactEventSenderService sender;
+	
+	public Contact save(Contact contact) {
+		contact = repository.save(contact);
+		sender.created(contact);
+		return contact;
+	}
+}

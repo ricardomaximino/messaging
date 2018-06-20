@@ -1,0 +1,29 @@
+package com.verisure.vcp.newmicroservice.api.converter;
+
+import com.verisure.vcp.newmicroservice.api.dto.ItemDTO;
+import com.verisure.vcp.newmicroservice.domain.entity.Campaign;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+
+/**
+ * Sample converter used as template. <b>Please remove for actual project implementation.</b>
+ *
+ * @since 1.0.0
+ * @author FaaS [faas@securitasdirect.es]
+ */
+@Mapper(componentModel = "spring")
+public interface CampaignConverter {
+
+    @Mappings({
+            @Mapping(source = "test", target = "testOne")
+           
+    })
+    ItemDTO toItemDto(Campaign item);
+
+    @Mappings({
+            @@Mapping(source = "testOne", target = "test")
+    })
+    Campaign toApplicationItem(ItemDTO entry);
+
+}

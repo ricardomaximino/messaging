@@ -1,0 +1,60 @@
+package com.verisure.vcp.newmicroservice.service;
+
+
+import java.util.List;
+
+import org.springframework.expression.spel.ast.Operator;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Campaign;
+import com.verisure.vcp.newmicroservice.domain.entity.Contact;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+/**
+ * Sample service interface used as template. <b>Please remove for actual project implementation.</b>
+ *
+ * @since 1.0.0
+ * @author FaaS [faas@securitasdirect.es]
+ */
+public interface CampaignService {
+
+    public Mono<Boolean> crate(String name);
+    
+    public Mono<Boolean> crate(String name, String description);
+    
+    public Mono<Boolean> addOperator(Operator operator);
+    
+    public Mono<Boolean> addContact(Contact contact);
+    
+    public Mono<Boolean> addOperators(List<Operator> operatorList);
+    
+    public Mono<Boolean> addContacts(List<Contact> contactList);
+    
+    public Mono<Boolean> removeOperator(Operator operator);
+    
+    public Mono<Boolean> removeContact(Contact contact);
+    
+    public Mono<Boolean> setOperators(List<Operator> operatorList);
+    
+    public Mono<Boolean> setContacts(List<Contact> contactList);
+    
+    public Mono<Long> countContacts();
+    
+    public Mono<Long> countOperators();
+    
+    public Mono<Boolean> existOperator(Operator operator);
+    
+    public Mono<Boolean> existContact(Contact contact);
+
+    public Mono<Boolean> setName(String name);
+    
+    public Mono<Boolean> setDescription(String description);
+    
+    public Mono<Boolean> setCampaign(String name, String description);
+    
+    public Flux<Campaign> findAll();
+    
+    public Mono<Boolean> deleteById(String id);
+
+}

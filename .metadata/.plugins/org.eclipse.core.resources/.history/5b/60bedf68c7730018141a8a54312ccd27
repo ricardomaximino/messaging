@@ -1,0 +1,22 @@
+package com.verisure.vcp.newmicroservice.service;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Contact;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+public interface ContactService {
+	
+	public Mono<Contact> save(Contact contact);
+	
+	public Mono<Contact> findById(String id);
+	
+	public Mono<Boolean> deleteById(String id);
+	
+	public Flux<Contact> findAll();
+	
+	public Flux<Contact> findByProfileId(String profileId);
+	
+	public Flux<Contact> findByResultId(String ResultId);
+
+}

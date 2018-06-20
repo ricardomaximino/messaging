@@ -1,0 +1,16 @@
+package com.brasajava.rabbitstreamreactiveone.repository;
+
+import java.time.LocalDateTime;
+
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+
+import com.brasajava.rabbitstreamreactiveone.domain.PersonEvent;
+
+import reactor.core.publisher.Flux;
+
+public interface PersonEventRepository extends ReactiveMongoRepository<PersonEvent, String>{
+
+	Flux<PersonEvent> findBySendDate(LocalDateTime date);
+	Flux<PersonEvent> findByReceiveDate(LocalDateTime date);
+	
+}

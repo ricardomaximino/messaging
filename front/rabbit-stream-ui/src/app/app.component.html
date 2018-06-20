@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row col-ms-6">
+      <div class="card" style="width: 50%; float: left;">
+          <div class="card-body">
+            <app-charts [config]=chartDataContact></app-charts>
+          </div>
+        </div>
+        <div class="card" style="width: 50%;float: left;">
+          <div class="card-body">
+            <app-charts [config]=chartDataContactEvent></app-charts>
+          </div>
+        </div>
+  </div>
+
+  <div class="row col-ms-6">
+    <div class="card" style="width: 50%;float: left;">
+      <div class="card-header" style="background-color: #34495E">  Quote     </div>
+      <div class="card-body">  <app-contact [contacts]="contacts"></app-contact>  </div>
+    </div>
+
+    <div class="card" style="width: 50%;float: left;">
+        <div class="card-header" style="background-color: #34495E"> Quote   </div>
+        <div class="card-body"> <app-contact-event [contactEvents]="events"></app-contact-event>   </div>
+    </div>
+  </div>
+
+</div>
+
+

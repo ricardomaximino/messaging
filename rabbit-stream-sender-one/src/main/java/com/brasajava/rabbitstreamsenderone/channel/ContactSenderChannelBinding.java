@@ -1,0 +1,25 @@
+package com.brasajava.rabbitstreamsenderone.channel;
+
+import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.messaging.MessageChannel;
+
+import com.brasajava.rabbitstreamsenderone.util.ContactChannel;
+
+public interface ContactSenderChannelBinding {
+	
+	@Output(ContactChannel.CONTACT_CREATED_EVENT)
+	MessageChannel created();
+	
+	@Output(ContactChannel.CONTACT_SAVED_EVENT)
+	MessageChannel saved();
+	
+	@Output(ContactChannel.CONTACT_NOT_SAVED_EVENT)
+	MessageChannel notSaved();
+	
+	@Output(ContactChannel.CONTACT_UPDATED_EVENT)
+	MessageChannel updated();
+	
+	@Output(ContactChannel.CONTACT_DELETED_EVENT)
+	MessageChannel deleted();
+
+}

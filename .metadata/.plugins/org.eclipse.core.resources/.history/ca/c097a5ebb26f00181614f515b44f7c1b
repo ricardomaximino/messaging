@@ -1,0 +1,5 @@
+package com.brasajava.rabbitstreamreactiveone.repository;
+
+public interface PersonEventRepository {
+
+}

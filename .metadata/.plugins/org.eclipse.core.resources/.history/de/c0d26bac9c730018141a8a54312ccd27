@@ -1,0 +1,13 @@
+package com.verisure.vcp.newmicroservice.common.utils;
+
+public class ProfileChannelsBinding {
+	
+	public static final String SEND_PROFILE_CREATED_EVENT = "sendProfileCreatedEvent";
+	public static final String SEND_PROFILE_UPDATED_EVENT = "sendProfileUpdatedEvent";
+	public static final String SEND_PROFILE_DELETED_EVENT = "sendProfileDeletedEvent";
+	
+
+	private ProfileChannelsBinding() throws IllegalAccessException {
+		throw new IllegalAccessException("This class should not be initialized");
+	}
+}

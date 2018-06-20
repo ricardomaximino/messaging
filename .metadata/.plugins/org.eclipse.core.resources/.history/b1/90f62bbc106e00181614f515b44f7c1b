@@ -1,0 +1,10 @@
+package com.brasajava.rabbitstreamreceiverone.service;
+
+import org.springframework.cloud.stream.annotation.EnableBinding;
+
+import com.brasajava.rabbitstreamreceiverone.channel.ContactReceiverChannelBinding;
+
+@EnableBinding(ContactReceiverChannelBinding.class)
+public class ContactReceiverService {
+
+}

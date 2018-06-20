@@ -1,0 +1,4 @@
+# Cloud config for dockerized environments.
+spring:
+  profiles: cloud
+

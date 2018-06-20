@@ -1,0 +1,87 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Person;
+import com.brasajava.rabbitstreamreactiveone.domain.PersonEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.PersonRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+// dont now where to send the event
+public class PersonMongoService {
+	private static final String PERSON_CREATED = "The person was created successfully";
+	private static final String PERSON_SAVED = "The person was saved successfully";
+	private static final String PERSON_NOT_SAVED = "The person was NOT saved in the database";
+	private static final String PERSON_DELETE = "The person was deleted from the database";
+	private int createdInt = 0;
+	private int savedInt = 0;
+	private int notSavedInt = 0;
+	private int deletedInt = 0;
+	
+	@Autowired
+	private PersonRepository repository;
+	@Autowired
+	private PersonSenderService sender;
+	
+	public Mono<Person> save(Person person){
+		return repository.save(person).map(p -> {
+			sender.sendPersonSaveEvent(createPersonEvent(2, p));
+			return p;
+		});
+	}
+	
+	public Flux<Person> findAll(){
+		return repository.findAll();
+	}
+	
+	public Mono<Void> deleteById(String id){
+		return repository.deleteById(id).map(rep -> {
+			repository.existsById(id).subscribe(exist -> {
+				if(exist) {
+					repository.findById(id).subscribe( person -> sender.sendPersonDeleteEvent(createPersonEvent(3, person)));
+				}
+			});
+			return rep;
+		});
+	}
+	
+	public Mono<Person> findById(String id){
+		return repository.findById(id);
+	}
+	
+	public Flux<Person> findByDate(LocalDate date){
+		return repository.findByCreateDate(date);
+	}
+	
+	public Flux<Person> findByTime(LocalTime time){
+		return repository.findByCreateTime(time);
+	}
+	
+	private PersonEvent createPersonEvent(int x, Person p) {
+		PersonEvent event = null;
+		switch (x) {
+		case 1:
+			event = new PersonEvent("01", createdInt + " --> " + PERSON_CREATED, p.getId(), p, LocalDate.now(), LocalTime.now());
+			createdInt++;
+			break;
+		case 2:
+			event = new PersonEvent("02", savedInt + " --> " + PERSON_SAVED, p.getId(), p, LocalDate.now(), LocalTime.now());
+			savedInt++;
+			break;
+		case 3:
+			event = new PersonEvent("03", notSavedInt + " --> " + PERSON_NOT_SAVED, p.getId(), p, LocalDate.now(), LocalTime.now());
+			notSavedInt++;
+			break;
+		case 4:
+			event = new PersonEvent("03", deletedInt + " --> " + PERSON_DELETE, p.getId(), p, LocalDate.now(), LocalTime.now());
+			deletedInt++;
+			break;
+		}
+		return event;
+	}
+
+}

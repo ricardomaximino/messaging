@@ -1,0 +1,5 @@
+package com.brasajava.rabbitstreamreceiverone.domain;
+
+public class Chart {
+
+}

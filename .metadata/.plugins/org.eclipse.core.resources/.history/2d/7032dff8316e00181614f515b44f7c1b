@@ -1,0 +1,25 @@
+package com.brasajava.rabbitstreamreceiverone.channel;
+
+import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.messaging.SubscribableChannel;
+
+import com.brasajava.rabbitstreamreceiverone.util.ContactChannel;
+
+public interface ContactReceiverChannelBinding {
+	
+	@Output(ContactChannel.CONTACT_CREATED_EVENT)
+	SubscribableChannel created();
+	
+	@Output(ContactChannel.CONTACT_SAVED_EVENT)
+	SubscribableChannel saved();
+	
+	@Output(ContactChannel.CONTACT_NOT_SAVED_EVENT)
+	SubscribableChannel notSaved();
+	
+	@Output(ContactChannel.CONTACT_UPDATED_EVENT)
+	SubscribableChannel updated();
+	
+	@Output(ContactChannel.CONTACT_DELETED_EVENT)
+	SubscribableChannel deleted();
+
+}

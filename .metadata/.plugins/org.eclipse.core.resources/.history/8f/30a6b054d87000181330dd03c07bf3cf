@@ -1,0 +1,52 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.Input;
+import org.springframework.cloud.stream.annotation.StreamListener;
+
+import com.brasajava.rabbitstreamreactiveone.channel.PersonReceiverBinding;
+import com.brasajava.rabbitstreamreactiveone.domain.PersonEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.PersonEventRepository;
+
+import reactor.core.publisher.Flux;
+
+@EnableBinding(PersonReceiverBinding.class)
+@EnableAutoConfiguration
+public class PersonReceiverService {
+	
+	@Autowired
+	private PersonEventRepository repository;
+	
+	@StreamListener
+	public void created(@Input(PersonReceiverBinding.LISTEN_CREATED_PERSON) Flux<PersonEvent> event) {
+		System.out.println("PERSON CREATED EVENT LISTENER CONNECTED");
+		event.subscribe(e -> {System.out.println("Receive PERSON CREATED event -> " + e); repository.save(e);});
+		
+	}
+
+	@StreamListener
+	public void saved(@Input(PersonReceiverBinding.LISTEN_SAVED_PERSON) Flux<PersonEvent> event) {
+		System.out.println("PERSON SAVED EVENT LISTENER CONNECTED");
+		event.subscribe(e -> {System.out.println("Receive PERSON SAVED event -> " + e);repository.save(e);});
+	}
+	
+	@StreamListener
+	public void notSaved(@Input(PersonReceiverBinding.LISTEN_NOT_SAVED_PERSON) Flux<PersonEvent> event) {
+		System.out.println("PERSON NOT SAVED EVENT LISTENER CONNECTED");
+		event.subscribe(e -> {System.out.println("Receive PERSON NOT SAVED event -> " + e); repository.save(e);});
+	}
+	
+	@StreamListener
+	public void updated(@Input(PersonReceiverBinding.LISTEN_UPDATED_PERSON) Flux<PersonEvent> event) {
+		System.out.println("PERSON UPDATED EVENT LISTENER CONNECTED");
+		event.subscribe(e -> {System.out.println("Receive PERSON UPDATED event -> " + e); repository.save(e);});
+	}
+	
+	@StreamListener
+	public void deleted(@Input(PersonReceiverBinding.LISTEN_DELETED_PERSON) Flux<PersonEvent> event) {
+		System.out.println("PERSON DELETED EVENT LISTENER CONNECTED");
+		event.subscribe(e -> {System.out.println("Receive PERSON DELETED event -> " + e); repository.save(e);});
+	}
+}

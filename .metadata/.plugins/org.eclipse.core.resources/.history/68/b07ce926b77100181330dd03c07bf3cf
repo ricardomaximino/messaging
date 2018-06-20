@@ -1,0 +1,12 @@
+package com.brasajava.springbootwebsocketone;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringBootWebSocketOneApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootWebSocketOneApplication.class, args);
+	}
+}

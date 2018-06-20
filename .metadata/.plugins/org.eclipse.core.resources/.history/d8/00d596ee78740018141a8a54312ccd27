@@ -1,0 +1,34 @@
+package com.verisure.vcp.newmicroservice.service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import com.verisure.vcp.newmicroservice.api.dto.ActivityDTO;
+import com.verisure.vcp.newmicroservice.domain.entity.Activity;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+public interface ActivityService {
+	
+	public Mono<Activity> save(ActivityDTO activityDTO);
+	
+	public Mono<Activity> findById(String id);
+	
+	public Mono<Boolean> deleteById(String operatorId, String id);
+	
+	public Flux<Activity> findAll();
+	
+	public Flux<Activity> findByStartDate(LocalDate date);
+	
+	public Flux<Activity> findByStartTime(LocalTime time);
+	
+	public Flux<Activity> findByEndDate(LocalDate date);
+	
+	public Flux<Activity> findByEndTime(LocalTime time);
+	
+	public Flux<Activity> findByOperatorId(String operatorId);
+	
+	public Flux<Activity> findByResultId(String resultId);
+
+}

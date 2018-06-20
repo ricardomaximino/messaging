@@ -1,0 +1,45 @@
+package com.brasajava.rabbitstreamreceiverone.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreceiverone.domain.ContactEvent;
+import com.brasajava.rabbitstreamreceiverone.repository.ContactEventRepository;
+
+@RestController
+public class ContactEventController {
+
+	
+	@Autowired
+	private ContactEventRepository repository;
+	
+	@GetMapping("/event")
+	public ResponseEntity<List<ContactEvent>> save() {
+		return new ResponseEntity<>(repository.findAll(), HttpStatus.CREATED);
+	}
+	@GetMapping(value = "/event", )
+	public ResponseEntity<List<ContactEvent>> save() {
+		return new ResponseEntity<>(repository.findAll(), HttpStatus.CREATED);
+	}
+	@GetMapping("/event")
+	public ResponseEntity<List<ContactEvent>> save() {
+		return new ResponseEntity<>(repository.findAll(), HttpStatus.CREATED);
+	}
+	@GetMapping("/event")
+	public ResponseEntity<List<ContactEvent>> save() {
+		return new ResponseEntity<>(repository.findAll(), HttpStatus.CREATED);
+	}
+	@GetMapping("/event")
+	public ResponseEntity<List<ContactEvent>> save() {
+		return new ResponseEntity<>(repository.findAll(), HttpStatus.CREATED);
+	}
+	@GetMapping("/event")
+	public ResponseEntity<List<ContactEvent>> save() {
+		return new ResponseEntity<>(repository.findAll(), HttpStatus.CREATED);
+	}
+}

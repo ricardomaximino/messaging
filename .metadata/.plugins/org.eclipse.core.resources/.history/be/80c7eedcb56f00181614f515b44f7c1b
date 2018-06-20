@@ -1,0 +1,76 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Person;
+import com.brasajava.rabbitstreamreactiveone.domain.PersonEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.PersonRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+// I do not know what layer would be better to send the event
+public class PersonService {
+		
+	@Autowired
+	private PersonRepository repository;
+	@Autowired
+	private PersonSenderService sender;
+	
+	public Mono<Person> save(Person person){
+		return repository.findById(person.getId()).flatMap(p -> {
+			if(p != null) {
+				return repository.save(p).map(con -> {
+					if(con != null) {
+						sender.sendPersonUpdatedEvent(new PersonEvent("04", "Updated", p.getId(), p, LocalDateTime.now()));
+						return con;
+					}else {
+						sender.sendPersonSaveEvent(new PersonEvent("03", "Not saved", p.getId(), p, LocalDateTime.now()));
+						return null;
+					}
+				});
+			}else {
+				sender.sendPersonCreatedEvent(new PersonEvent("01","Created", person.getId(), person, LocalDateTime.now()));
+				return repository.save(p).map(per -> {
+					if(per != null) {
+						sender.sendPersonUpdatedEvent(new PersonEvent("01", "Saved", per.getId(), per, LocalDateTime.now()));
+						return per;
+					}else {
+						sender.sendPersonNotSavedEvent(new PersonEvent("03", "Not saved", person.getId(), person, LocalDateTime.now()));
+						return null;
+					}
+				});
+			}
+		});
+	}
+	
+	
+	public Mono<Boolean> deleteById(String id){
+		return repository.findById(id).flatMap(p -> {
+			if(p != null) {
+				return repository.deleteById(id).flatMap(d -> { 
+					sender.sendPersonDeleteEvent(new PersonEvent("05", "Deleted", p.getId(), p, LocalDateTime.now()));
+					return Mono.just(true);});
+			}
+			return Mono.just(true);
+		});
+	}
+		
+	public Mono<Person> findById(String id){
+		return repository.findById(id);
+	}
+	
+	public Flux<Person> findAll(){
+		return repository.findAll();
+	}
+	
+	public Flux<Person> findByCreateDate(LocalDateTime date){
+		return repository.findByCreateDate(date);
+	}
+	
+	public Flux<Person> findByUpdateDate(LocalDateTime date){
+		return repository.findByUpdateDate(date);
+	}
+	
+}

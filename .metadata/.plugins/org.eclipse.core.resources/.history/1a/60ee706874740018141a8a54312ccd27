@@ -1,0 +1,20 @@
+package com.verisure.vcp.newmicroservice.api.dto;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Result;
+
+public class AcitivityDTO {
+	
+	private String operator;
+	private String id;
+	private String contactId;
+	private String operatorId;
+	private LocalDate startDate;
+	private LocalTime startTime;
+	private LocalDate endDate;
+	private LocalTime endTime;
+	private Result result;
+
+}

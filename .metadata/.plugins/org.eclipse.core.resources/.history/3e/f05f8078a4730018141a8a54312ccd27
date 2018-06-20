@@ -1,0 +1,42 @@
+# For standard Spring Boot parameters see:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+
+server:
+  port: 8090
+
+
+spring:
+# APPLICATION NAME
+  application:
+    name: profile
+# PROFILE    
+  profiles:
+    active:
+    - dev
+# MONGO    
+  data:
+    mongodb:
+      uri: mongodb://localhost/spring
+# RABBIT      
+  rabbitmq:
+    username: guest
+    password: guest
+
+  cloud:
+    stream:
+      bindings:
+      
+# PROFILE SENDER      
+        sendContactCreated:
+          destination: profile-created
+          group: profile-created
+
+        sendContactUpdated:
+          destination: profile-updated
+          group: profile-updated
+
+        sendContactDeleted:
+          destination: profile-deleted
+          group: profile-deleted
+
+

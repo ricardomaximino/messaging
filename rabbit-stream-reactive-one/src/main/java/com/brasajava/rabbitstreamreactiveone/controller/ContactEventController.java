@@ -1,0 +1,61 @@
+package com.brasajava.rabbitstreamreactiveone.controller;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreactiveone.domain.ContactEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.ContactEventRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@RestController
+@CrossOrigin("*")
+public class ContactEventController {
+	
+	@Autowired
+	private ContactEventRepository repository;
+	
+	@GetMapping("/contact-event")
+	public Flux<ContactEvent> findAll(){
+		return repository.findAll();
+	}
+	
+	@GetMapping(value = "/contact-event", params = "sendDate")
+	public Flux<ContactEvent> findBySendDate(@RequestParam(value = "sendDate", required=true) LocalDate date){
+		return repository.findBySendDate(date);
+	}
+	
+	@GetMapping(value = "/contact-event", params = "receiveDate")
+	public Flux<ContactEvent> findByReceiveDate(@RequestParam(value = "receiveDate", required=true) LocalDate date){
+		return repository.findByReceiveDate(date);
+	}
+	
+	@GetMapping(value = "/contact-event", params = "sendTime")
+	public Flux<ContactEvent> findByReceiveTime(@RequestParam(value = "sendTime", required=true) LocalTime time){
+		return repository.findByReceiveTime(time);
+	}
+
+	@GetMapping(value = "/contact-event", params = "receiveTime")
+	public Flux<ContactEvent> findBySendTime(@RequestParam(value = "receiveTime", required=true) LocalTime time){
+		return repository.findByReceiveTime(time);
+	}
+	
+	@GetMapping("/contact-event/{id}")
+	public Mono<ContactEvent> findById(@PathVariable("id") String id){
+		return repository.findById(id);
+	}
+	
+	@GetMapping(value = "/contact-event", params = "count")
+	public Mono<Long> count(){
+		return repository.count();
+	}
+
+}

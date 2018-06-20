@@ -1,0 +1,36 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Campaign;
+import com.verisure.vcp.newmicroservice.domain.repository.CampaignRepository;
+import com.verisure.vcp.newmicroservice.service.CampaignService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * Sample service implementation.
+ *
+ * @since 1.0.0
+ * @author FaaS [faas@securitasdirect.es]
+ */
+@Service
+@Slf4j
+public class ApplicationServiceImpl implements CampaignService {
+
+    @Autowired
+    private CampaignRepository applicationRepository;
+
+    @Override
+    public void createApplicationItem(Campaign applicationItem) {
+        applicationRepository.save(applicationItem);
+    }
+
+    @Override
+    public List<Campaign> getApplicationItems() {
+      return applicationRepository.findAll();
+    }
+
+
+}

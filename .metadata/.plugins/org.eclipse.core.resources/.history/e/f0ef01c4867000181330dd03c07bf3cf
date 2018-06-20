@@ -1,0 +1,41 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.Input;
+import org.springframework.cloud.stream.annotation.StreamListener;
+
+import com.brasajava.rabbitstreamreactiveone.channel.ContactReceiverBinding;
+import com.brasajava.rabbitstreamreactiveone.domain.ContactEvent;
+
+import reactor.core.publisher.Flux;
+
+@EnableBinding(ContactReceiverBinding.class)
+@EnableAutoConfiguration
+public class ContactReceiverService {
+
+	@StreamListener
+	public void create(@Input(ContactReceiverBinding.LISTEN_CREATED_CONTACT) Flux<ContactEvent> event) {
+		event.subscribe(e -> System.out.println("Receive CONTACT CREATED event -> " + e));
+	}
+	
+	@StreamListener
+	public void save(@Input(ContactReceiverBinding.LISTEN_SAVED_CONTACT) Flux<ContactEvent> event) {
+		event.subscribe(e -> System.out.println("Receive CONTACT SAVED event -> " + e));
+	}
+	
+	@StreamListener
+	public void notSaved(@Input(ContactReceiverBinding.LISTEN_NOT_SAVED_CONTACT) Flux<ContactEvent> event) {
+		event.subscribe(e -> System.out.println("Receive CONTACT NOT SAVED event -> " + e));
+	}
+	
+	@StreamListener
+	public void updated(@Input(ContactReceiverBinding.LISTEN_UPDATED_CONTACT) Flux<ContactEvent> event) {
+		event.subscribe(e -> System.out.println("Receive CONTACT UPDATED event -> " + e));
+	}
+	
+	@StreamListener
+	public void delete(@Input(ContactReceiverBinding.LISTEN_DELETED_CONTACT) Flux<ContactEvent> event) {
+		event.subscribe(e -> System.out.println("Receive delete event -> " + e));
+	}
+}

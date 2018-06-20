@@ -1,0 +1,104 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Person;
+import com.brasajava.rabbitstreamreactiveone.domain.PersonEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.PersonRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class PersonService {
+		
+	@Autowired
+	private PersonRepository repository;
+	@Autowired
+	private PersonSenderService sender;
+	
+	public Mono<Person> save(Person person){
+		return repository.existsById(person.getId()).flatMap(exist -> {
+			if(exist) {
+				update(person);
+				return repository.save(person);
+			}else {
+				create(person);
+				return repository.save(person);
+			}
+		});
+	}
+	
+	
+	public Mono<Boolean> deleteById(String id){
+		return repository.existsById(id).flatMap(exist -> {
+			if(exist) {
+				repository.findById(id).subscribe(p -> 	delete(p));
+				return repository.deleteById(id).map(d -> true);
+			}
+			return Mono.just(new Boolean(false));
+		});
+	}
+		
+	
+	public Mono<Person> findById(String id){
+		return repository.findById(id);
+	}
+	
+	public Flux<Person> findAll(){
+		return repository.findAll();
+	}
+	
+	public Flux<Person> findByCreateDate(LocalDate date){
+		return repository.findByCreateDate(date);
+	}
+	
+	public Flux<Person> findByUpdateDate(LocalDate date){
+		return repository.findByUpdateDate(date);
+	}
+	public Flux<Person> findByCreateTime(LocalTime time){
+		return repository.findByCreateTime(time);
+	}
+	
+	public Flux<Person> findByUpdateTime(LocalTime time){
+		return repository.findByUpdateTime(time);
+	}
+	
+	public Mono<Long> count(){
+		return repository.count();
+	}
+	
+	
+	private Person create(Person person) {
+		LocalDate date = LocalDate.now();
+		LocalTime time = LocalTime.now();
+		person.setCreateDate(date);
+		person.setCreateTime(time);
+		person.setUpdateDate(date);
+		person.setUpdateTime(time);
+		sender.sendPersonCreatedEvent(new PersonEvent("01", "Created", person.getId(), person, date, date, time, time));
+		return person;
+	}
+	
+	private Person update(Person person) {
+		repository.findById(person.getId()).subscribe(p -> {person.setCreateDate(p.getCreateDate());person.setCreateTime(p.getCreateTime());});
+		LocalDate date = LocalDate.now();
+		LocalTime time = LocalTime.now();
+		person.setUpdateDate(date);
+		person.setUpdateTime(time);
+		
+		sender.sendPersonUpdatedEvent(new PersonEvent("02","Updated", person.getId(), person, date, date, time, time));
+		return person;
+	}
+	
+	private void delete(Person person) {
+		LocalDate date = LocalDate.now();
+		LocalTime time = LocalTime.now();
+		sender.sendPersonDeleteEvent(new PersonEvent("03", "Deleted", person.getId(), person, date, date, time, time));
+	}
+	
+}

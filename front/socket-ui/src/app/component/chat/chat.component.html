@@ -1,0 +1,15 @@
+<div #display>
+    <div #messages *ngFor="let message of messages">
+      {{message.sender}} --> {{message.content}}
+    </div>
+    <div *ngIf="typingMessage">{{typingMessage.sender}} is typing...</div>
+</div>
+<div>
+    <input #chat placeholder="CHAT"/>
+  <input #username placeholder="USERNAME"/>
+  <input #message (click)="sendTypingMessage()" placeholder="Message"/>
+  <button (click)="connect()">connect</button>
+  <button (click)="sendMessage()">Send public</button>
+  <button (click)="sendPrivate()">Send Private</button>
+  <!-- <button (click)="disconnect()">Disconnect</button> -->
+</div>

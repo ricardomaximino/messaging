@@ -1,0 +1,5 @@
+package com.verisure.vcp.newmicroservice.domain.entity;
+
+public class Activity {
+
+}

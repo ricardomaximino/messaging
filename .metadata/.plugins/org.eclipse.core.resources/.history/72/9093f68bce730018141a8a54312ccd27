@@ -1,0 +1,12 @@
+package com.verisure.vcp.newmicroservice.common.utils;
+
+public class ActivityChannelsBinding {
+	
+	public static final String SEND_ACTIVITY_CREATED_EVENT = "";
+	public static final String SEND_ACTIVITY_UPDATED_EVENT = "";
+	public static final String SEND_ACTIVITY_DELETED_EVENT = "";
+
+	private ActivityChannelsBinding() throws IllegalAccessException {
+		throw new IllegalAccessException("This class should not be initialized");
+	}
+}

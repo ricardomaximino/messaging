@@ -1,0 +1,15 @@
+package com.verisure.vcp.newmicroservice.service;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Result;
+
+import reactor.core.publisher.Mono;
+
+public interface ResultService {
+	
+	public Mono<Result> save(Result result);
+	
+	public Mono<Result> findById(String id);
+	
+	public Mono<Boolean> deleteById(String id);
+
+}

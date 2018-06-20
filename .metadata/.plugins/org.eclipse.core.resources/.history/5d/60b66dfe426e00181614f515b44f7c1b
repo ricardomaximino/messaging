@@ -1,0 +1,5 @@
+package com.brasajava.rabbitstreamreceiverone.config;
+
+public class CorsConfig {
+
+}

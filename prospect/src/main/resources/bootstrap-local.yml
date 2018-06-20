@@ -1,0 +1,8 @@
+# Local bootstrap properties used for developers environment.
+spring:
+  profiles: local
+
+server:
+  port: 8080
+  ssl:
+    enabled: false

@@ -1,0 +1,79 @@
+package com.brasajava.rabbitstreamreactiveone.controller;
+
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Person;
+import com.brasajava.rabbitstreamreactiveone.service.PersonService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@RestController
+@CrossOrigin("*")
+public class PersonController {
+	
+	@Autowired
+	private PersonService service;
+	
+	@PostMapping("/person")
+	public Mono<Person> save(@RequestBody Person person){
+		if(person.getId() == null || person.getId().isEmpty()) {
+			person.setId(String.valueOf(Math.random() * 244574872));
+		}
+		return service.save(person);
+	}
+	
+	@GetMapping("/person/{id}")
+	public Mono<Person> findById(String id){
+		return service.findById(id);
+	}
+	
+	@GetMapping(value = "/person", params = "count")
+	public Mono<Long> countt(){
+		return service.count();
+	}
+	
+	@GetMapping(value = "/person", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<Person> findAll(){
+		return service.findAll().delayElements(Duration.ofSeconds(3));
+	}
+	
+	@GetMapping(value = "/person", params = "createDate", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<Person> findByCreateDate(LocalDate date){
+		return service.findByCreateDate(date);
+	}
+
+	@GetMapping(value = "/person", params = "updateDate", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<Person> findByUpdateDate(LocalDate date){
+		return service.findByUpdateDate(date);
+	}
+	
+	@GetMapping(value = "/person", params = "createTime", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<Person> findByCreateTime(LocalTime time){
+		return service.findByCreateTime(time);
+	}
+
+	@GetMapping(value = "/person", params = "updateTime", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<Person> findByUpdateTime(LocalTime time){
+		return service.findByUpdateTime(time);
+	}
+	
+	@DeleteMapping("/person/{id}")
+	public Mono<Boolean> deleteById(@PathVariable("id") String id){
+		return service.deleteById(id);
+	}
+
+	
+}

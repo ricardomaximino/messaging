@@ -1,0 +1,96 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Activity;
+import com.verisure.vcp.newmicroservice.domain.entity.Contact;
+import com.verisure.vcp.newmicroservice.domain.repository.ContactRepository;
+import com.verisure.vcp.newmicroservice.service.ContactService;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+@Slf4j
+public class ContactServiceImpl implements ContactService{
+	
+	@Autowired
+	private ContactRepository contactRepository;
+	
+	@Override
+	public Mono<Contact> save(Contact contact) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Contact> findById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> deleteById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Contact> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Contact> findByProfileId(String profileId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Contact> findByResultId(String ResultId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Contact> findByOrigin(String origin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> addActivity(String contactId, Activity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> addActivities(String contactId, List<Activity> activityList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> setActivities(String contactId, List<Activity> activityList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> belongThisActivityToThisContact(String contactId, String activityId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> removeActivity(String activityId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

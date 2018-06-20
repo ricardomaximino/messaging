@@ -1,0 +1,137 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Contact;
+import com.brasajava.rabbitstreamreactiveone.domain.ContactEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.ContactRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class ContactMongService {
+	private static final String CONTACT_CREATED = "The contact was created successfully";
+	private static final String CONTACT_SAVED = "The contact was saved successfully";
+	private static final String CONTACT_NOT_SAVED = "The contact was NOT saved in the database";
+	private static final String CONTACT_DELETE = "The contact was deleted from the database";
+	private int createdInt = 0;
+	private int savedInt = 0;
+	private int notSavedInt = 0;
+	private int deletedInt = 0;
+
+	@Autowired
+	private ContactRepository repository;
+
+	@Autowired
+	private ContactSenderService sender;
+
+	public Flux<?> doTheMagic() {
+		int startRange = 1;
+		int endRange = 200;
+		Random rd = new Random(28939284);
+		return Flux.range(startRange, endRange).flatMap(count ->  {
+			Contact contact;
+			if(count > (endRange % 2) && count % 2 == 0) {
+				contact = createContact(String.valueOf(rd.nextLong()));
+				repository.existsById(contact.getId()).subscribe(exist -> {
+					if(!exist) {
+						repository.save(contact).subscribe(success -> sender.sendContactSaveEvent(createContactEvent(2, success)));
+					}else {
+						sender.sendContactNotSavedEvent(createContactEvent(count, contact));
+					}
+				});
+				
+			}else if(count <  (endRange % 2) && count % 2 != 0) {
+				contact = createContact(count.toString());
+				repository.existsById(String.valueOf(rd.nextLong())).subscribe(exist -> {
+					if(!exist) {
+						repository.save(contact).subscribe(success -> sender.sendContactSaveEvent(createContactEvent(2, success)));
+					}else {
+						sender.sendContactNotSavedEvent(createContactEvent(count, contact));
+					}
+				});
+			}
+			return Mono.just(createContact(String.valueOf(rd.nextLong()))); });
+		}
+
+	private Contact createContact(String id) {
+		Contact contact = new Contact(id.toString(), "Name is of " + id, "email" + id + "@.com.es");
+		sender.sendContactCreatedEvent(createContactEvent(1, contact));
+		return contact;
+	}
+
+	public Mono<Contact> save(Contact contact) {
+		return repository.save(contact).flatMap(c -> {
+			if (c != null && c.getId() != null || !c.getId().isEmpty()) {
+				sender.sendContactSaveEvent(createContactEvent(2, c));
+				return Mono.just(c);
+			} else {
+				return Mono.error(new IllegalArgumentException("This contact could not be saved in the database"));
+			}
+		});
+	}
+
+	private ContactEvent createContactEvent(int x, Contact c) {
+		ContactEvent event = null;
+		switch (x) {
+		case 1:
+			event = new ContactEvent("01", createdInt + " --> " + CONTACT_CREATED, c.getId(), c);
+			createdInt++;
+			break;
+		case 2:
+			event = new ContactEvent("02", savedInt + " --> " + CONTACT_SAVED, c.getId(), c);
+			savedInt++;
+			break;
+		case 3:
+			event = new ContactEvent("03", notSavedInt + " --> " + CONTACT_NOT_SAVED, c.getId(), c);
+			notSavedInt++;
+			break;
+		case 4:
+			event = new ContactEvent("03", deletedInt + " --> " + CONTACT_DELETE, c.getId(), c);
+			deletedInt++;
+			break;
+		}
+		return event;
+	}
+
+	public Mono<Void> delete(String id) {
+		return repository.deleteById(id);
+	}
+
+	public void create() {
+		sender.sendContactCreatedEvent(new ContactEvent("01", "The contact was created successfully!!!", "-1", null));
+	}
+
+	public ResponseEntity<Mono<String>> okResponse() {
+		return new ResponseEntity<>(Mono.just("The contact was saved successfully in the database"),
+				HttpStatus.CREATED);
+	}
+
+	public ResponseEntity<Mono<String>> koResponse() {
+		return new ResponseEntity<>(Mono.just("The contact could not be saved in the database"),
+				HttpStatus.BAD_REQUEST);
+	}
+
+	public ResponseEntity<Mono<String>> okDelete() {
+		return new ResponseEntity<>(Mono.just("The contact was deleted successfully from the database"),
+				HttpStatus.ACCEPTED);
+	}
+
+	public ResponseEntity<Mono<String>> okCreate() {
+		return new ResponseEntity<>(Mono.just("The contact was create successfully"), HttpStatus.OK);
+	}
+
+	public Flux<Contact> findAll() {
+		return repository.findAll();
+	}
+	
+	public Mono<Long> count(){
+		return repository.count();
+	}
+}

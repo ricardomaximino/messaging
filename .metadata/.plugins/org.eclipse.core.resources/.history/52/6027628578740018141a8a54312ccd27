@@ -1,0 +1,20 @@
+package com.verisure.vcp.newmicroservice.service;
+
+import org.springframework.expression.spel.ast.Operator;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+public interface OperatorService {
+	
+	public Mono<Operator> save(Operator operator);
+	
+	public Mono<Boolean> deleteById(String id);
+	
+	public Mono<Operator> findById(String id);
+	
+	public Flux<Operator> findBySkills(String skillsId);
+	
+	public Flux<Operator> findAll();
+	
+}

@@ -1,0 +1,52 @@
+package com.brasajava.rabbitstreamreactiveone.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Contact;
+import com.brasajava.rabbitstreamreactiveone.service.ContactService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@RestController
+@CrossOrigin("*")
+public class ContactController {
+	
+	@Autowired
+	public ContactService service;
+	
+	@PostMapping("/contact")
+	public Mono<Contact> save(@RequestBody Contact contact) {
+		return service.save(contact);
+	}
+	
+	@GetMapping("/contact/{id}")
+	public Mono<Contact> findById(@PathVariable("id") String id){
+		return service.findById(id);
+	}
+	
+	@GetMapping("/contact")
+	public Flux<ResponseEntity<Contact>> findAll(){
+		return service.findAll().flatMap(resp -> Flux.just(new ResponseEntity<>(resp, HttpStatus.OK)));
+	}
+	
+	@GetMapping(value = "/contact", params = "count")
+	public Mono<Long> count(){
+		return service.count();
+	}
+	
+	@DeleteMapping("/contact/{id}")
+	public Mono<Boolean> deleteById(@PathVariable("id") String id){
+		return service.deleteById(id);
+	}
+
+}

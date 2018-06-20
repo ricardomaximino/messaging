@@ -1,0 +1,48 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.verisure.vcp.newmicroservice.api.dto.SkillsDTO;
+import com.verisure.vcp.newmicroservice.domain.entity.Skills;
+import com.verisure.vcp.newmicroservice.domain.repository.SkillsRepository;
+import com.verisure.vcp.newmicroservice.service.SkillsService;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+@Slf4j
+public class SkillsServiceImpl implements SkillsService{
+	
+	@Autowired
+	private SkillsRepository skillsRepository;
+
+	@Override
+	public Mono<Skills> save(SkillsDTO skillsDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Skills> findById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> deleteById(String operatorId, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Skills> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+}

@@ -1,0 +1,69 @@
+package com.brasajava.rabbitstreamsenderone.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamsenderone.domain.Contact;
+import com.brasajava.rabbitstreamsenderone.repository.ContactRepository;
+
+
+@Service
+public class ContactService {
+
+	@Autowired
+	private ContactRepository repository;
+	@Autowired
+	private ContactEventSenderService sender;
+	
+	public Contact save(Contact contact) {
+		if(repository.findById(contact.getId()).isPresent()) {
+			contact = repository.save(contact);
+			sender.updated(contact);
+		}else {
+			create(contact);
+			Contact savedContact = repository.save(contact);
+			if(savedContact != null) {
+				contact = savedContact;
+				sender.saved(savedContact);
+			}else {
+				sender.notSaved(contact);
+			}
+		}
+		return contact;
+	}
+
+
+	public Contact update(Contact contact) {
+		contact = repository.save(contact);
+		sender.updated(contact);
+		return contact;
+	}
+	
+	public boolean delete(String id) {
+		Boolean response = false;
+		Optional<Contact> contact = repository.findById(id);
+		if(contact.isPresent()) {
+			response = true;
+			repository.delete(contact.get());
+			sender.deleted(contact.get());
+		}
+		return response;
+	}
+	
+	public List<Contact> findAll(){
+		return repository.findAll();
+	}
+	
+	
+	private void create(Contact contact) {
+		sender.created(contact);
+	}
+
+
+	public Optional<Contact> findById(String id) {
+		return repository.findById(id);
+	}
+}

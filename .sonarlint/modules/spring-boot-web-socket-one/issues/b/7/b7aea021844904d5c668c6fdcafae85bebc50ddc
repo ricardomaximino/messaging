@@ -1,0 +1,16 @@
+
+Ysquid:S3457"%String contains no format specifiers.(Û¤ˆ²8‚»ĞÓÀ,HôRMAJORZ
+CODE_SMELL
+q
+squid:S106"9Replace this use of System.out or System.err by a logger.(ó±ÉÈúÿÿÿÿ8 ÒØÀ,H†RMAJORZ
+CODE_SMELL
+ksquid:S2629$"7Use the built-in formatting to construct this argument.(ô¯ßÚ8 ÒØÀ,H…RMAJORZ
+CODE_SMELL
+q
+squid:S106"9Replace this use of System.out or System.err by a logger.(œß¹ÿÿÿÿÿ8öÖÀ,HùRMAJORZ
+CODE_SMELL
+l
+squid:S106%"9Replace this use of System.out or System.err by a logger.(©­­Õ8öÖÀ,HúRMAJORZ
+CODE_SMELL
+usquid:S3457$"AFormat specifiers should be used instead of string concatenation.(ô¯ßÚ8 ÒØÀ,H‡RMAJORZ
+CODE_SMELL

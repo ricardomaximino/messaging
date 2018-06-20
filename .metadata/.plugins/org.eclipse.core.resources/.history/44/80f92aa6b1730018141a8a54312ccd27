@@ -1,0 +1,22 @@
+package com.verisure.vcp.newmicroservice.api.converter;
+
+import org.springframework.stereotype.Component;
+
+import com.verisure.vcp.newmicroservice.api.dto.ProfileDTO;
+import com.verisure.vcp.newmicroservice.domain.entity.Profile;
+
+@Component
+public class ProfileConverterImpl implements ProfileConverter {
+
+	@Override
+	public ProfileDTO toProfileDTO(Profile profile) {
+		return new ProfileDTO("", profile.getId(), profile.getName(), profile.getLastname(), profile.getBirthday(), profile.getDetails());
+	}
+
+	@Override
+	public Profile toProfile(ProfileDTO dto) {
+		return new Profile(null, dto.getName(), dto.getLastname(), dto.getBirthday(), dto.getDetails());
+	}
+
+	
+}

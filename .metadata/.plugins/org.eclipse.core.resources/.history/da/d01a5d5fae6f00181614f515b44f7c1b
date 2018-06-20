@@ -1,0 +1,68 @@
+package com.brasajava.rabbitstreamreactiveone.controller;
+
+import java.time.Duration;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Contact;
+import com.brasajava.rabbitstreamreactiveone.service.ContactService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@RestController
+@CrossOrigin(origins = "*")
+public class SenderController {
+	public static int i = 0;
+	@Autowired
+	private ContactService service;
+	private ResponseEntity<Mono<String>> response;
+	
+	@PostMapping(value="/contact")
+	public ResponseEntity<Mono<String>> save(@RequestBody Contact contact){
+		service.save(contact).subscribe(c -> {response =service.okResponse();},error ->{response = service.koResponse();});	
+		return response;
+	}
+	
+	@PostMapping("/delete/{id}")
+	public ResponseEntity<Mono<String>> delete(@PathVariable("id") String id){
+		service.delete(id).subscribe(d -> response = service.okDelete());
+		return response;
+	}
+	
+	@GetMapping(value = "/contact", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<Contact> contact() {
+		return Flux.range(1, 10).delayElements(Duration.ofSeconds(5)).map(l -> new Contact("id -> " +l, "Test name " + l , "email@email.com"));
+	}
+	
+	@GetMapping(value = "/contact/flux")
+	public Flux<Contact> contactflux() {
+		return service.findAll().zipWith(Flux.interval(Duration.ofSeconds(1)), (a,b) -> a);
+	}
+	
+	@GetMapping("/create")
+	public ResponseEntity<Mono<String>> create(){
+		service.doTheMagic().subscribe();
+		return service.okCreate();
+	}
+	
+	@GetMapping("/forever/contact")
+	public ResponseEntity<Mono<String>> foreverContact(){
+		service.doTheMagic().subscribe();
+		return service.okCreate();
+	}
+	
+	@GetMapping("/contact/count")
+	public ResponseEntity<Mono<Long>> count(){
+		return new ResponseEntity<>(service.count(), HttpStatus.OK);
+	}
+}

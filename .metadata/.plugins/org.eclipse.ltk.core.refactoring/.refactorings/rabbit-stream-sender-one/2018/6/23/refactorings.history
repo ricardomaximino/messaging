@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;headers&apos; in &apos;com.brasajava.rabbitstreamsenderone.service.SenderService.getMap()&apos; to &apos;map&apos;&#x0D;&#x0A;- Original project: &apos;rabbit-stream-sender-one&apos;&#x0D;&#x0A;- Original element: &apos;com.brasajava.rabbitstreamsenderone.service.SenderService.getMap().headers&apos;&#x0D;&#x0A;- Renamed element: &apos;headers&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;headers&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src\/main\/java&lt;com.brasajava.rabbitstreamsenderone.service{SenderService.java[SenderService~getMap@headers!883!928!903!909!QMap\&lt;QString;QObject;&gt;;!0!false" name="map" references="true" stamp="1528384875209" version="1.0"/>
+</session>

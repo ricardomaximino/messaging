@@ -1,0 +1,5 @@
+package com.brasajava.springbootreactivewebsockettwo.channel;
+
+public interface ContactBindingChannel {
+
+}

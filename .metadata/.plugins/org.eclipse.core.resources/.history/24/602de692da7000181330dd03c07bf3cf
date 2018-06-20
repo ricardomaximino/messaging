@@ -1,0 +1,76 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Contact;
+import com.brasajava.rabbitstreamreactiveone.domain.ContactEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.ContactRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class ContactService {
+
+	@Autowired
+	private ContactRepository repository;
+
+	@Autowired
+	private ContactSenderService sender;
+
+
+	public Mono<Contact> save(Contact contact) {
+		return repository.existsById(contact.getId()).flatMap(exist -> {
+				if(exist) {
+					update(contact);
+					return repository.save(contact);
+				}else {
+					create(contact);
+					return repository.save(contact);
+				}
+		});
+	}
+
+	
+	public Mono<Contact> findById(String id){
+		return repository.findById(id);
+	}
+	
+	public Flux<Contact> findAll(){
+		return repository.findAll();
+	}
+
+	public Mono<Long> count(){
+		return repository.count();
+	}
+	
+	public Mono<Boolean> deleteById(String id){
+		return repository.existsById(id).flatMap(exist -> {
+			if(exist) {
+				repository.findById(id).subscribe(c -> 	delete(c));
+				return repository.deleteById(id).map(d -> true);
+			}
+			return Mono.just(new Boolean(false));
+		});
+	}
+	
+	private Contact create(Contact contact) {
+		contact.setCreateDate(LocalDateTime.now());
+		contact.setUpdateDate(LocalDateTime.now());
+		sender.sendContactCreatedEvent(new ContactEvent("01","Created", contact.getId(), contact, LocalDateTime.now()));
+		return contact;
+	}
+	
+	private Contact update(Contact contact) {
+		contact.setUpdateDate(LocalDateTime.now());
+		sender.sendContactUpdatedEvent(new ContactEvent("04","Updated", contact.getId(), contact, LocalDateTime.now()));
+		return contact;
+	}
+
+	private void delete(Contact contact) {
+		sender.sendContactDeleteEvent(new ContactEvent("05", "Deleted", contact.getId(), contact, LocalDateTime.now()));
+	}
+}

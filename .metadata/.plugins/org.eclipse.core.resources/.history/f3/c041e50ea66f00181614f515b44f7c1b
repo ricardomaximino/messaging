@@ -1,0 +1,70 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.cloud.stream.reactive.FluxSender;
+import org.springframework.cloud.stream.reactive.StreamEmitter;
+
+import com.brasajava.rabbitstreamreactiveone.channel.ContactSenderBinding;
+import com.brasajava.rabbitstreamreactiveone.domain.ContactEvent;
+
+import reactor.core.publisher.Flux;
+
+@EnableBinding(ContactSenderBinding.class)
+public class ContactSenderService {
+	
+	private FluxSender createdContactEventSender;
+	private FluxSender savedContactEventSender;
+	private FluxSender updatedContactEventSender;
+	private FluxSender deletedContactEventSender;
+	private FluxSender notSavedContactEventSender;
+
+	@StreamEmitter
+	public void setContactCreatedEvent(@Output(ContactSenderBinding.CREATED_CONTACT) FluxSender sender) {
+		this.createdContactEventSender = sender;
+	}
+
+	@StreamEmitter
+	public void setContactSaveEvent(@Output(ContactSenderBinding.SAVED_CONTACT) FluxSender sender) {
+		this.savedContactEventSender = sender;
+	}
+	
+	@StreamEmitter
+	public void setContactNotSavedEvent(@Output(ContactSenderBinding.NOT_SAVED_CONTACT) FluxSender sender) {
+		this.notSavedContactEventSender = sender;
+	}
+	
+	@StreamEmitter
+	public void setContactUpdateEvent(@Output(ContactSenderBinding.UPDATED_CONTACT) FluxSender sender) {
+		this.updatedContactEventSender = sender;
+	}
+	
+	@StreamEmitter
+	public void setContactDeleteEvent(@Output(ContactSenderBinding.DELETED_CONTACT) FluxSender sender) {
+		this.deletedContactEventSender = sender;
+	}
+
+	public void sendContactCreatedEvent(ContactEvent event) {
+		System.out.println("Sending the Create event -> " + event);
+		createdContactEventSender.send(Flux.just(event));
+	}
+
+	public void sendContactSavedEvent(ContactEvent event) {
+		System.out.println("Sending the Save event -> " + event);
+		savedContactEventSender.send(Flux.just(event));
+	}
+	
+	public void sendContactNotSavedEvent(ContactEvent event) {
+		System.out.println("Sending the Not Saved event -> " + event);
+		notSavedContactEventSender.send(Flux.just(event));
+	}
+	
+	public void sendContactUpdatedEvent(ContactEvent event) {
+		System.out.println("Sending the Not Saved event -> " + event);
+	}
+	
+	public void sendContactDeleteEvent(ContactEvent event) {
+		System.out.println("Sending the Delete event -> " + event);
+		deletedContactEventSender.send(Flux.just(event));
+	}
+}

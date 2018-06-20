@@ -1,0 +1,12 @@
+package com.brasajava.rabbitstreamreceiverone.channel;
+
+public class ContactChannelBinding {
+	public static String CONTACT_CREATED_EVENT = "CONTACT_CREATED_EVENT";
+	public static String CONTACT_SAVED_EVENT = "CONTACT_SAVED_EVENT";
+	public static String CONTACT_NOT_SAVED_EVENT = "CONTACT_NOT_SAVED_EVENT";
+	public static String CONTACT_UPDATE_EVENT = "CONTACT_UPDATE_EVENT";
+	public static String CONTACT_DELETED_EVENT = "CONTACT_DELETED_EVENT";
+	
+	
+
+}

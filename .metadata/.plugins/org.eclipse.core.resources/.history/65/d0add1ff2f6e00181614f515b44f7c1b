@@ -1,0 +1,5 @@
+package com.brasajava.rabbitstreamsenderone.controller;
+
+public class ContactController {
+
+}

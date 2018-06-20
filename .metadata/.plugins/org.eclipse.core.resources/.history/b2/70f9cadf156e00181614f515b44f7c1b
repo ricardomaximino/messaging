@@ -1,0 +1,7 @@
+package com.brasajava.rabbitstreamreceiverone.repository;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.brasajava.rabbitstreamreceiverone.domain.ContactEvent;
+
+public interface ContactEventRepository extends MongoRepository<ContactEvent, String>{}

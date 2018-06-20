@@ -1,0 +1,130 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.verisure.vcp.newmicroservice.api.converter.ContactConverter;
+import com.verisure.vcp.newmicroservice.api.dto.ContactDTO;
+import com.verisure.vcp.newmicroservice.common.utils.EventBuilder;
+import com.verisure.vcp.newmicroservice.domain.entity.Activity;
+import com.verisure.vcp.newmicroservice.domain.entity.Contact;
+import com.verisure.vcp.newmicroservice.domain.repository.ContactRepository;
+import com.verisure.vcp.newmicroservice.service.ContactEventSender;
+import com.verisure.vcp.newmicroservice.service.ContactService;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+@Slf4j
+public class ContactServiceImpl implements ContactService{
+	
+	@Autowired
+	private ContactRepository contactRepository;
+	
+	@Autowired
+	private ContactConverter converter;
+	
+	@Autowired
+	private ContactEventSender sender;
+
+	@Override
+	public Mono<Contact> save(ContactDTO contactDTO) {
+		if(contactDTO.getId() != null && !contactDTO.getId().isEmpty()) {
+			return contactRepository.existsById(contactDTO.getId()).flatMap(exist -> {
+				if(exist) {
+					LOGGER.debug("UPDATE CONTACT ON THE DATABASE");
+					sender.sendUpdatedEvent(EventBuilder.updatedEvent(contactDTO));
+					return contactRepository.save(converter.toContact(contactDTO));
+				}else {
+					LOGGER.debug("CREATE CONTACT ON THE DATABASE");
+					sender.sendCreatedEvent(EventBuilder.createdEvent(contactDTO));
+					return contactRepository.save(converter.toContact(contactDTO));
+				}
+			});
+		}else {
+			return contactRepository.save(converter.toContact(contactDTO)).map(o -> {
+				LOGGER.debug("CREATE CONTACT ON THE DATABASE");
+				sender.sendCreatedEvent(EventBuilder.createdEvent(contactDTO));
+				return o;
+			});
+		}
+	}
+
+	@Override
+	public Mono<Contact> findById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> deleteById(String operatorId, String id) {
+		return contactRepository.existsById(id).flatMap(exist -> {
+			if(exist) {
+				contactRepository.findById(id).subscribe(o -> 	sender.sendDeletedEvent(EventBuilder.deletedEvent(converter.toContactDTO(o, operatorId))));
+				LOGGER.debug("DELETE CONTACT ON THE DATABASE");
+				return contactRepository.deleteById(id).map(o -> true);
+			}
+			return Mono.just(new Boolean(false));
+		});
+	}
+
+	@Override
+	public Flux<Contact> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Contact> findByProfileId(String profileId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Contact> findByResultId(String ResultId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Contact> findByOrigin(String origin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Contact> addActivity(String operatorId, String contactId, Activity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Contact> addActivities(String operatorId, String contactId, List<Activity> activityList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Contact> setActivities(String operatorId, String contactId, List<Activity> activityList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> existActivity(String contactId, String activityId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Contact> removeActivity(String operatorId, String contactId, String activityId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+}

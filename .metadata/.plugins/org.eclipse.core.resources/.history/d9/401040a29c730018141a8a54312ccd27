@@ -1,0 +1,10 @@
+package com.verisure.vcp.newmicroservice.common.utils;
+
+public class ProfileChannelsBinding {
+	
+	
+
+	private ProfileChannelsBinding() {
+		throw new IllegalAccessException("This class should not be initialized");
+	}
+}

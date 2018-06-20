@@ -1,0 +1,36 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Profile;
+import com.verisure.vcp.newmicroservice.domain.repository.ProfileRepository;
+import com.verisure.vcp.newmicroservice.service.ApplicationService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * Sample service implementation.
+ *
+ * @since 1.0.0
+ * @author FaaS [faas@securitasdirect.es]
+ */
+@Service
+@Slf4j
+public class ApplicationServiceImpl implements ApplicationService {
+
+    @Autowired
+    private ProfileRepository applicationRepository;
+
+    @Override
+    public void createApplicationItem(Profile applicationItem) {
+        applicationRepository.save(applicationItem);
+    }
+
+    @Override
+    public List<Profile> getApplicationItems() {
+      return applicationRepository.findAll();
+    }
+
+
+}

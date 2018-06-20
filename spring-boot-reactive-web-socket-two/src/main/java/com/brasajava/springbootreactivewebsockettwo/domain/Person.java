@@ -1,0 +1,82 @@
+package com.brasajava.springbootreactivewebsockettwo.domain;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
+public class Person {
+
+	@Id
+	private String id;
+	private String name;
+	private String lastname;
+	private LocalDate createDate;
+	private LocalTime createTime;
+	private LocalDate updateDate;
+	private LocalTime updateTime;
+	
+	
+	public Person() {}	
+	public Person(String name, String lastname, LocalDate createDate, LocalTime createTime, LocalDate updateDate,
+			LocalTime updateTime) {
+		super();
+		this.name = name;
+		this.lastname = lastname;
+		this.createDate = createDate;
+		this.createTime = createTime;
+		this.updateDate = updateDate;
+		this.updateTime = updateTime;
+	}
+
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getLastname() {
+		return lastname;
+	}
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+	public LocalDate getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(LocalDate createDate) {
+		this.createDate = createDate;
+	}
+	public LocalTime getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(LocalTime createTime) {
+		this.createTime = createTime;
+	}
+	public LocalDate getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(LocalDate updateDate) {
+		this.updateDate = updateDate;
+	}
+	public LocalTime getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(LocalTime updateTime) {
+		this.updateTime = updateTime;
+	}
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", name=" + name + ", lastname=" + lastname + ", createDate=" + createDate
+				+ ", createTime=" + createTime + ", updateDate=" + updateDate + ", updateTime=" + updateTime + "]";
+	}
+	
+}

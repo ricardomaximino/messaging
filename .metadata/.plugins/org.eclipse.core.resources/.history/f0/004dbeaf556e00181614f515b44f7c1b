@@ -1,0 +1,35 @@
+package com.brasajava.rabbitstreamreceiverone.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Chart {
+	
+	private String name;
+	private List<Long> data = new ArrayList<Long>;
+	
+	public Chart() {}
+	
+	public Chart(String name, List<Long> data) {
+		this.name = name;
+		this.data = data;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public List<Long> getData() {
+		return data;
+	}
+	public void setData(List<Long> data) {
+		this.data = data;
+	}
+	@Override
+	public String toString() {
+		return "Chart [name=" + name + ", data=" + data + "]";
+	}
+	
+}

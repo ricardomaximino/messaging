@@ -1,0 +1,7 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import com.verisure.vcp.newmicroservice.service.SkillsService;
+
+public class SkillsServiceImpl implements SkillsService{
+
+}

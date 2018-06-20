@@ -1,0 +1,26 @@
+package com.verisure.vcp.newmicroservice.api.dto;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ResultDTO {
+
+	@ApiModelProperty(notes = "Operator id", required = true)
+	private String operator;
+	
+	@ApiModelProperty(notes = "Result id", required = true)
+	private String id;
+	
+	@ApiModelProperty(notes = "Result name", required = true)
+	private String name;
+	
+	@ApiModelProperty(notes = "Result description", required = true)
+	private String description;
+}

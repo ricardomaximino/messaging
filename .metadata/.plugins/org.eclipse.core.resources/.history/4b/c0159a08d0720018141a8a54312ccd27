@@ -1,0 +1,5 @@
+package com.brasajava.springbootreactivewebsockettwo.config;
+
+public class WebsocketConfig {
+
+}

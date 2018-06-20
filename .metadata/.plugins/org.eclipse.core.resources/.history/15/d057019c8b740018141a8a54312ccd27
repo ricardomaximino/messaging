@@ -1,0 +1,13 @@
+package com.verisure.vcp.newmicroservice.domain.repository;
+
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Operator;
+import com.verisure.vcp.newmicroservice.domain.entity.Skills;
+
+import reactor.core.publisher.Flux;
+
+public interface OperatorRepository extends ReactiveMongoRepository<Operator, String>{
+	
+
+}

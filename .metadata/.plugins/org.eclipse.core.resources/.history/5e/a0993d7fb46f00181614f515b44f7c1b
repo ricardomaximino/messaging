@@ -1,0 +1,81 @@
+package com.brasajava.rabbitstreamreactiveone.domain;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
+public class PersonEvent {
+
+	@Id
+	private String id;
+	private String type;
+	private String description;
+	private String personId;
+	private Person person;
+	private LocalDateTime sendDate;
+	private LocalDateTime receiveDate;
+	
+	
+	
+	public PersonEvent() {}
+	public PersonEvent(String type, String description, String personId, Person person, LocalDateTime sendDate) {
+		super();
+		this.type = type;
+		this.description = description;
+		this.personId = personId;
+		this.person = person;
+		this.sendDate = sendDate;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getPersonId() {
+		return personId;
+	}
+	public void setPersonId(String personId) {
+		this.personId = personId;
+	}
+	public Person getPerson() {
+		return person;
+	}
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	public LocalDateTime getSendDate() {
+		return sendDate;
+	}
+	public void setSendDate(LocalDateTime sendDate) {
+		this.sendDate = sendDate;
+	}
+	public LocalDateTime getReceiveDate() {
+		return receiveDate;
+	}
+	public void setReceiveDate(LocalDateTime receiveDate) {
+		this.receiveDate = receiveDate;
+	}
+	@Override
+	public String toString() {
+		return "PersonEvent [id=" + id + ", type=" + type + ", description=" + description + ", personId=" + personId
+				+ ", person=" + person + ", sendDate=" + sendDate + ", receiveDate=" + receiveDate + "]";
+	}
+}

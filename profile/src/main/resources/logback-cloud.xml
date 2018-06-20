@@ -1,0 +1,27 @@
+<!--
+    Logback configuration file for "cloud" spring profile used for dockerized environments with a file based solution for logging.
+-->
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="file-appender.xml" />
+
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+        <property name="FILE_LOG_PATTERN" value="%d{dd-MM-yyyy HH:mm:ss} %-5level %-100logger{100} [${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-}]: %msg%n" />
+
+	<logger name="com.verisure" additivity="false" level="DEBUG">
+        <appender-ref ref="FILE" />
+    </logger>
+
+	<logger name="com.netflix" additivity="false" level="INFO">
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="org.springframework" additivity="false" level="INFO">
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <root level="warn">
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>

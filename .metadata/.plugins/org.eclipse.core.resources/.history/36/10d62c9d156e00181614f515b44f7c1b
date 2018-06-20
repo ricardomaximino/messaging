@@ -1,0 +1,9 @@
+package com.brasajava.rabbitstreamreceiverone.domain;
+
+public class ContactErrorEvent extends ContactEvent{
+
+	public ContactErrorEvent() {}
+
+	public
+	
+}

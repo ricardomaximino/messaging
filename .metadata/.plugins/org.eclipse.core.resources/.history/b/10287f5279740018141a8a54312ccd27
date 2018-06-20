@@ -1,0 +1,69 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.verisure.vcp.newmicroservice.common.utils.EventBuilder;
+import com.verisure.vcp.newmicroservice.domain.entity.Skills;
+import com.verisure.vcp.newmicroservice.domain.repository.SkillsRepository;
+import com.verisure.vcp.newmicroservice.service.SkillsService;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+@Slf4j
+public class SkillsServiceImpl implements SkillsService{
+	
+	@Autowired
+	private SkillsRepository skillsRepository;
+
+	@Override
+	public Mono<Skills> save(Skills skills) {
+		if(profileDTO.getId() != null && !profileDTO.getId().isEmpty()) {
+			return repository.existsById(profileDTO.getId()).flatMap(exist -> {
+				if(exist) {
+					LOGGER.debug("UPDATE PROFILE ON THE DATABASE");
+					sender.sendUpdatedEvent(EventBuilder.updatedEvent(profileDTO));
+					return repository.save(setOnUpdate(converter.toProfile(profileDTO)));
+				}else {
+					LOGGER.debug("CREATE PROFILE ON THE DATABASE");
+					sender.sendCreatedEvent(EventBuilder.createdEvent(profileDTO));
+					return repository.save(setOnCreate(converter.toProfile(profileDTO)));
+				}
+			});
+		}else {
+			return repository.save(setOnCreate(converter.toProfile(profileDTO))).map(p -> {
+				LOGGER.debug("CREATE PROFILE ON THE DATABASE");
+				sender.sendCreatedEvent(EventBuilder.createdEvent(profileDTO));
+				return p;
+			});
+		}
+	}
+
+	@Override
+	public Mono<Skills> findById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> deleteById(String id) {
+		return repository.existsById(id).flatMap(exist -> {
+			if(exist) {
+				repository.findById(id).subscribe(p -> 	sender.sendDeletedEvent(EventBuilder.deletedEvent(p, operator)));
+				LOGGER.debug("DELETE PROFILE ON THE DATABASE");
+				return repository.deleteById(id).map(p -> true);
+			}
+			return Mono.just(new Boolean(false));
+		});
+	}
+
+	@Override
+	public Flux<Skills> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

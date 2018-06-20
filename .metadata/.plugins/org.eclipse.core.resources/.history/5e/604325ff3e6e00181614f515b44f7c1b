@@ -1,0 +1,38 @@
+package com.brasajava.rabbitstreamreceiverone.service;
+
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+
+import com.brasajava.rabbitstreamreceiverone.channel.ContactReceiverChannelBinding;
+import com.brasajava.rabbitstreamreceiverone.domain.Contact;
+import com.brasajava.rabbitstreamreceiverone.util.ContactChannel;
+
+@EnableBinding(ContactReceiverChannelBinding.class)
+public class ContactReceiverService {
+	
+	@StreamListener(value=ContactChannel.CONTACT_CREATED_EVENT)
+	public void created(Contact contact) {
+		System.out.println("Receiving created contact event -> " + contact);
+	}
+	
+	@StreamListener(value=ContactChannel.CONTACT_CREATED_EVENT)
+	public void saved(Contact contact) {
+		System.out.println("Receiving saved contact event -> " + contact);
+	}
+	
+	@StreamListener(value=ContactChannel.CONTACT_CREATED_EVENT)
+	public void notSaved(Contact contact) {
+		System.out.println("Receiving notSaved contact event -> " + contact);
+	}
+	
+	@StreamListener(value=ContactChannel.CONTACT_CREATED_EVENT)
+	public void updated(Contact contact) {
+		System.out.println("Receiving updated contact event -> " + contact);
+	}
+	
+	@StreamListener(value=ContactChannel.CONTACT_CREATED_EVENT)
+	public void deleted(Contact contact) {
+		System.out.println("Receiving deleted contact event -> " + contact);
+	}
+
+}

@@ -1,0 +1,13 @@
+package com.verisure.vcp.newmicroservice.common.utils;
+
+public class SkillChannelsBinding {
+	
+	public static final String SEND_SKILLS_CREATED_EVENT = "";
+	public static final String SEND_SKILLS_UPDATED_EVENT = "";
+	public static final String SEND_SKILLS_DELETED_EVENT = "";
+	
+
+	private SkillChannelsBinding() throws IllegalAccessException {
+		throw new IllegalAccessException("This class should not be initialized");
+	}
+}

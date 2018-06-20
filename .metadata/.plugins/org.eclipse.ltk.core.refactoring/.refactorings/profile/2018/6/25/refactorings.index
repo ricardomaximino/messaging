@@ -1,0 +1,13 @@
+1529395738224	Rename type 'ApplicationItem'
+1529396011841	Rename type 'ApplicationRepository'
+1529396028561	Rename type 'ApplicationService'
+1529397116792	Rename type 'ApplicationServiceImpl'
+1529398340789	Rename type 'ItemDTO'
+1529398860729	Rename type 'ItemConverter'
+1529398881767	Rename type 'ApplicationController'
+1529401880143	Rename local variable 'contact'
+1529402000416	Rename local variable 'profile'
+1529403778543	Rename field 'profileConverter'
+1529486635566	Copy compilation unit
+1529492958761	Copy compilation unit
+1529493223295	Copy compilation unit

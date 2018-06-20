@@ -1,0 +1,7 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import com.verisure.vcp.newmicroservice.service.ResultService;
+
+public class ResultServiceImpl implements ResultService{
+
+}

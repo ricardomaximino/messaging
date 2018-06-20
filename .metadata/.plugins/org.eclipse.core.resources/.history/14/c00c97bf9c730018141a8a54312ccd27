@@ -1,0 +1,20 @@
+package com.verisure.vcp.newmicroservice.common.utils;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Event;
+import com.verisure.vcp.newmicroservice.domain.entity.Profile;
+
+public class EventBuilder {
+	
+	public static Event createdEvent(Profile profile) {
+		return null;
+	}
+	
+	public static Event updatedEvent(Profile profile) {
+		return null;
+	}
+	
+	public static Event deletedEvent(Profile profile) {
+		return null;
+	}
+
+}

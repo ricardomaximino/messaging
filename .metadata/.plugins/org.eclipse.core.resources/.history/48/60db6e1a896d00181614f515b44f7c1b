@@ -1,0 +1,5 @@
+package com.brasajava.rabbitstreamreceiverone.channel;
+
+public class ContactChannelBinding {
+
+}

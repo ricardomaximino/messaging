@@ -1,0 +1,78 @@
+server:
+  port: 8090
+
+
+spring:
+# APPLICATION NAME
+  application:
+    name: spring-boot-reactive-web-socket-two
+# PROFILE    
+  profiles:
+    active:
+    - dev
+# MONGO    
+  data:
+    mongodb:
+      uri: mongodb://localhost/spring
+# RABBIT      
+  rabbitmq:
+    username: guest
+    password: guest
+
+  cloud:
+    stream:
+      bindings:
+      
+# CONTACT SENDER      
+        sendContactCreated:
+          destination: contact-created
+          group: contact-created
+
+        sendContactUpdated:
+          destination: contact-updated
+          group: contact-updated
+
+        sendContactDeleted:
+          destination: contact-deleted
+          group: contact-deleted
+
+# CONTACT LISTENER
+        listenContactCreated:
+          destination: contact-created
+          group: contact-created
+
+        listenContactUpdated:
+          destination: contact-updated
+          group: contact-updated
+
+        listenContactDeleted:
+          destination: contact-deleted
+          group: contact-deleted
+
+
+# PERSON SENDER
+        sendPersonCreated:
+          destination: person-created
+          group: person-created
+
+        sendPersonUpdated:
+          destination: person-updated
+          group: person-updated
+
+        sendPersonDeleted: 
+          destination: person-deleted
+          group: person-deleted
+
+
+# PERSON LISTENER
+        listenPersonCreated:
+          destination: person-created
+          group: person-created
+
+        listenPersonUpdated:
+          destination: person-updated
+          group: person-updated
+
+        listenPersonDeleted: 
+          destination: person-deleted
+          group: person-deleted

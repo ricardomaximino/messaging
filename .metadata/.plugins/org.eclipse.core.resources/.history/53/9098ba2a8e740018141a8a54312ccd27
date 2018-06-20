@@ -1,0 +1,19 @@
+package com.verisure.vcp.newmicroservice.api.converter;
+
+import org.springframework.stereotype.Component;
+
+import com.verisure.vcp.newmicroservice.api.dto.ContactDTO;
+import com.verisure.vcp.newmicroservice.domain.entity.Contact;
+
+@Component
+public class ContactConverter {
+	
+	public Contact toContact(ContactDTO dto) {
+		return new Contact(dto.getId(), dto.getContact(), dto.getProfileId(), dto.getActivityList(), dto.getResult(), dto.getOrigin());
+	}
+	
+	public ContactDTO toContactDTO(Contact contact, String operator) {
+		return new ContactDTO(operator, contact.getId(), contact.getContact(), contact.getProfileId(), contact.getActivityList(), contact.getResult(), contact.getOrigin());
+	}
+
+}

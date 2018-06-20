@@ -1,0 +1,41 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.Input;
+import org.springframework.cloud.stream.annotation.StreamListener;
+
+import com.brasajava.rabbitstreamreactiveone.channel.PersonReceiverBinding;
+import com.brasajava.rabbitstreamreactiveone.domain.PersonEvent;
+
+import reactor.core.publisher.Flux;
+
+@EnableBinding(PersonReceiverBinding.class)
+@EnableAutoConfiguration
+public class PersonReceiverService {
+	
+	@StreamListener
+	public void created(@Input(PersonReceiverBinding.LISTEN_CREATED_PERSON) Flux<PersonEvent> event) {
+		event.subscribe(e -> System.out.println("Receive create event -> " + e));
+	}
+
+	@StreamListener
+	public void saved(@Input(PersonReceiverBinding.LISTEN_SAVED_PERSON) Flux<PersonEvent> event) {
+		event.subscribe(e -> System.out.println("Receive save event -> " + e));
+	}
+	
+	@StreamListener
+	public void notSaved(@Input(PersonReceiverBinding.LISTEN_NOT_SAVED_PERSON) Flux<PersonEvent> event) {
+		event.subscribe(e -> System.out.println("Receive not saved event -> " + e));
+	}
+	
+	@StreamListener
+	public void updated(@Input(PersonReceiverBinding.LISTEN_UPDATED_PERSON) Flux<PersonEvent> event) {
+		event.subscribe(e -> System.out.println("Receive create event -> " + e));
+	}
+	
+	@StreamListener
+	public void deleted(@Input(PersonReceiverBinding.LISTEN_DELETED_PERSON) Flux<PersonEvent> event) {
+		event.subscribe(e -> System.out.println("Receive delete event -> " + e));
+	}
+}

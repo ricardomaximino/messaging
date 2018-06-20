@@ -1,0 +1,5 @@
+package com.brasajava.rabbitstreamreceiverone.util;
+
+public enum ContactChannel {
+
+}

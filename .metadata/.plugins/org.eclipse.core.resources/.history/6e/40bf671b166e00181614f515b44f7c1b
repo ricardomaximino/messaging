@@ -1,0 +1,25 @@
+package com.brasajava.rabbitstreamreceiverone.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreceiverone.domain.Contact;
+import com.brasajava.rabbitstreamreceiverone.service.ContactServer;
+
+@RestController
+public class ContactController {
+
+	@Autowired
+	private ContactServer contactServer;
+	
+	@PostMapping(value = "/contact", consumes=MediaType.APPLICATION_JSON_UTF8_VALUE, produces= MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Contact> save(@RequestBody Contact contact) {
+		
+		return new ResponseEntity<>(contact, HttpStatus.CREATED);
+	}
+}

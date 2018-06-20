@@ -1,0 +1,5 @@
+package com.verisure.vcp.newmicroservice.api.dto;
+
+public class AcitivityDTO {
+
+}

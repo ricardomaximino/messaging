@@ -1,0 +1,19 @@
+package com.verisure.vcp.newmicroservice.service;
+
+import com.verisure.vcp.newmicroservice.api.dto.ResultDTO;
+import com.verisure.vcp.newmicroservice.domain.entity.Result;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+public interface ResultService {
+	
+	public Mono<Result> save(ResultDTO resultDTO);
+	
+	public Mono<Result> findById(String id);
+	
+	public Mono<Boolean> deleteById(String operatorId, String id);
+	
+	public Flux<Result> findAll();
+
+}

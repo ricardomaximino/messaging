@@ -1,0 +1,9 @@
+package com.verisure.vcp.newmicroservice.common.utils;
+
+public class OperatorChannelsBinding {
+	
+	private OperatorChannelsBinding() throws IllegalAccessException {
+		throw new IllegalAccessException("This class should not be initialized");
+	}
+
+}

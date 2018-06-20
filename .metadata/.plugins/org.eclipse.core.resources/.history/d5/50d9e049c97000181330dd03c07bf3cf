@@ -1,0 +1,63 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Contact;
+import com.brasajava.rabbitstreamreactiveone.domain.ContactEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.ContactRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class ContactService {
+
+	@Autowired
+	private ContactRepository repository;
+
+	@Autowired
+	private ContactSenderService sender;
+
+
+	public Mono<Contact> save(Contact contact) {
+		return repository.existsById(contact.getId()).flatMap(fc -> {
+				if(fc) {
+					sender.sendContactUpdatedEvent(new ContactEvent("04","Updated", contact.getId(), contact, LocalDateTime.now()));
+					System.out.println("Successfull part @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+					return repository.save(contact);
+				}else
+					sender.sendContactCreatedEvent(new ContactEvent("01","Created", contact.getId(), contact, LocalDateTime.now()));
+					System.out.println("Error part @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+					return repository.save(contact);
+			});
+	}
+
+	
+	public Mono<Contact> findById(String id){
+		return repository.findById(id);
+	}
+	
+	public Flux<Contact> findAll(){
+		return repository.findAll();
+	}
+
+	public Mono<Long> count(){
+		return repository.count();
+	}
+	
+	public Mono<Boolean> deleteById(String id){
+		return repository.findById(id).map(c -> {
+			if(c != null) {
+				repository.deleteById(id).subscribe();
+				sender.sendContactDeleteEvent(new ContactEvent("05", "Deleted", c.getId(), c, LocalDateTime.now()));
+				return true;
+			}else {
+				return false;
+			}
+		});
+	}
+	
+}

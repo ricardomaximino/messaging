@@ -1,0 +1,22 @@
+package com.verisure.vcp.newmicroservice.api.dto;
+
+import java.util.List;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Skills;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class OperatorDTO {
+
+	private String operator;
+	private String id;
+	private String name;
+	private List<Skills> skillsList;
+}

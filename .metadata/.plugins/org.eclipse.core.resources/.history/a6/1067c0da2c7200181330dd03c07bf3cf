@@ -1,0 +1,139 @@
+package com.brasajava.springbootreactivewebsocketone;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+
+
+@SpringBootApplication
+public class SpringBootReactiveWebSocketOneApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootReactiveWebSocketOneApplication.class, args);
+	}
+}
+
+@Configuration
+@EnableWebSocketMessageBroker
+class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+	@Override
+	public void registerStompEndpoints(StompEndpointRegistry registry) {
+		registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
+	}
+
+	@Override
+	public void configureMessageBroker(MessageBrokerRegistry registry) {
+		registry.setApplicationDestinationPrefixes("/app");
+		registry.enableSimpleBroker("/topic");
+	}
+}
+
+
+@Controller
+class GreetingController {
+
+	
+	@MessageMapping("/chat.sendMessage")
+    @SendTo("/topic/public")
+    public Message sendMessage(@Payload Message message) {
+		System.out.println("Controller Send Message => " + message);
+        return message;
+    }
+
+    @MessageMapping("/chat.addUser")
+    @SendTo("/topic/public")
+    public Message addUser( @Payload Message chatMessage) {
+    	System.out.println("Controller Add user" + chatMessage);
+        return null;
+    }
+
+}
+
+class Message {
+	private String type;
+	private String content;
+	private String sender;
+	
+	
+	public Message() {	}
+	public Message(String type, String content, String sender) {
+		this.type = type;
+		this.content = content;
+		this.sender = sender;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getSender() {
+		return sender;
+	}
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
+	@Override
+	public String toString() {
+		return "Message [type=" + type + ", content=" + content + ", sender=" + sender + "]";
+	}
+	
+}
+
+@Component
+class WebSocketEventListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
+
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
+
+    @EventListener
+    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
+        logger.info("Received a new web socket connection");
+        
+        messagingTemplate.convertAndSend("/topic/public", event.getMessage().getPayload());
+    }
+
+    @EventListener
+    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+
+        String username = (String) headerAccessor.getSessionAttributes().get("username");
+        if(username == null) {
+            logger.info("User Disconnected : " + username);
+
+            Message chatMessage = new Message();
+            chatMessage.setType("LEAVE");
+            chatMessage.setSender(username);
+
+            
+        }
+    }
+}

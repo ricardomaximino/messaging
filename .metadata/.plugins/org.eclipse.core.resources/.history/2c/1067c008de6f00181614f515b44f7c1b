@@ -1,0 +1,47 @@
+package com.brasajava.rabbitstreamreactiveone.controller;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreactiveone.domain.PersonEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.PersonEventRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@RestController
+@CrossOrigin("*")
+public class PersonEventController {
+
+	
+	@Autowired
+	private PersonEventRepository repository;
+	
+	@GetMapping("/person-event")
+	public Flux<PersonEvent> findAll(){
+		return null;
+	}
+	@GetMapping("/person-event/{id}")
+	public Mono<PersonEvent> findById(String id){
+		return null;
+	}
+	
+	@GetMapping(value = "/person-event", params = "sendDate")
+	public Flux<PersonEvent> findBySendDate(LocalDateTime date){
+		return null;		
+	}
+	
+	@GetMapping(value = "/person-event", params = "receiveDate")
+	public Flux<PersonEvent> findByReceiveDate(LocalDateTime date){
+		return null;
+	}
+	
+	@GetMapping(value = "/person-event", params = "type")
+	public Flux<PersonEvent> findByType(String type){
+		return null;
+	}
+}

@@ -1,0 +1,56 @@
+package com.brasajava.rabbitstreamreactiveone.controller;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Person;
+import com.brasajava.rabbitstreamreactiveone.service.PersonService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@RestController
+@CrossOrigin("*")
+public class PersonController {
+	
+	@Autowired
+	private PersonService service;
+	
+	@PostMapping("/person")
+	public Mono<Person> save(@RequestBody Person person){
+		return null;
+	}
+	
+	@GetMapping("/person/{id}")
+	public Mono<Person> findById(String id){
+		return null;
+	}
+	
+	@GetMapping("/person")
+	public Flux<Person> findAll(){
+		return null;
+	}
+	
+	@GetMapping(value = "/person", params = "createDate")
+	public Flux<Person> findByCreateDate(LocalDateTime date){
+		return null;
+	}
+
+	@GetMapping(value = "/person", params = "updateDate")
+	public Flux<Person> findByUpdateDate(LocalDateTime date){
+		return null;
+	}
+	
+	@DeleteMapping("/person/{id}")
+	public Mono<Boolean> deleteById(String id){
+		return null;
+	}
+	
+}

@@ -1,0 +1,83 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.verisure.vcp.newmicroservice.api.converter.OperatorConverter;
+import com.verisure.vcp.newmicroservice.api.dto.OperatorDTO;
+import com.verisure.vcp.newmicroservice.common.utils.EventBuilder;
+import com.verisure.vcp.newmicroservice.domain.entity.Operator;
+import com.verisure.vcp.newmicroservice.domain.repository.OperatorRepository;
+import com.verisure.vcp.newmicroservice.service.OperatorEventSender;
+import com.verisure.vcp.newmicroservice.service.OperatorService;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+@Slf4j
+public class OperatorServiceImpl implements OperatorService{
+
+	@Autowired
+	private OperatorRepository operatorRepository;
+	
+	@Autowired
+	private OperatorConverter converter;
+	
+	@Autowired
+	private OperatorEventSender sender;
+
+	@Override
+	public Mono<Operator> save(OperatorDTO operatorDTO) {
+		if(operatorDTO.getId() != null && !operatorDTO.getId().isEmpty()) {
+			return operatorRepository.existsById(operatorDTO.getId()).flatMap(exist -> {
+				if(exist) {
+					LOGGER.debug("UPDATE OPERATOR ON THE DATABASE");
+					sender.sendUpdatedEvent(EventBuilder.updatedEvent(operatorDTO));
+					return operatorRepository.save(converter.toOperator(operatorDTO));
+				}else {
+					LOGGER.debug("CREATE OPERATOR ON THE DATABASE");
+					sender.sendCreatedEvent(EventBuilder.createdEvent(operatorDTO));
+					return operatorRepository.save(converter.toOperator(operatorDTO));
+				}
+			});
+		}else {
+			return operatorRepository.save(converter.toOperator(operatorDTO)).map(o -> {
+				LOGGER.debug("CREATE OPERATOR ON THE DATABASE");
+				sender.sendCreatedEvent(EventBuilder.createdEvent(operatorDTO));
+				return o;
+			});
+	}
+
+	@Override
+	public Mono<Boolean> deleteById(String operatorId, String id) {
+		return operatorRepository.existsById(id).flatMap(exist -> {
+			if(exist) {
+				operatorRepository.findById(id).subscribe(o -> 	sender.sendDeletedEvent(EventBuilder.deletedEvent(converter.toOperatorDTO(o, operatorId))));
+				LOGGER.debug("DELETE OPERATOR ON THE DATABASE");
+				return operatorRepository.deleteById(id).map(o -> true);
+			}
+			return Mono.just(new Boolean(false));
+		});
+	}
+
+	@Override
+	public Mono<Operator> findById(String id) {
+		return operatorRepository.findById(id);
+	}
+
+	@Override
+	public Flux<Operator> findBySkills(String skillsId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Operator> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+}

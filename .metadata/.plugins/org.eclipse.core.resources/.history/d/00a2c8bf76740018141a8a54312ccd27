@@ -1,0 +1,18 @@
+package com.verisure.vcp.newmicroservice.api.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ResultDTO {
+
+	private String operator;
+	private String id;
+	private String name;
+	private String description;
+}

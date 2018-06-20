@@ -1,0 +1,21 @@
+package com.verisure.vcp.newmicroservice.api.converter;
+
+
+import org.springframework.stereotype.Component;
+
+import com.verisure.vcp.newmicroservice.api.dto.OperatorDTO;
+import com.verisure.vcp.newmicroservice.api.dto.SkillsDTO;
+import com.verisure.vcp.newmicroservice.domain.entity.Opereator;
+
+@Component
+public class OperatorConverter {
+	
+	public Opereator toSkills(OperatorDTO dto) {
+		return new Opereator(dto.getId(), dto.getName(), dto.getSkillsList());
+	}
+	
+	public OperatorDTO toSkillsDTO(Operator skills, String operator) {
+		return new OperatorDTO(operator, skills.getId(), skills.getName(), skills.getDescription());
+	}
+
+}

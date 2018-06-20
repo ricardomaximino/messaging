@@ -1,0 +1,48 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.verisure.vcp.newmicroservice.api.dto.ResultDTO;
+import com.verisure.vcp.newmicroservice.domain.entity.Result;
+import com.verisure.vcp.newmicroservice.domain.repository.ResultRepository;
+import com.verisure.vcp.newmicroservice.service.ResultService;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+@Slf4j
+public class ResultServiceImpl implements ResultService{
+
+	@Autowired
+	private ResultRepository resultRepository;
+
+	@Override
+	public Mono<Result> save(ResultDTO resultDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Result> findById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> deleteById(String operatorId, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Result> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
+}

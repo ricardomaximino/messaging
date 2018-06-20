@@ -1,0 +1,6 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+
+public class ActivityEventSenderImpl {
+
+}

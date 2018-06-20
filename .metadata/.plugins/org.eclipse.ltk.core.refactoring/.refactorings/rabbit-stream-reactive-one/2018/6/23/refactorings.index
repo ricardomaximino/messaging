@@ -1,0 +1,16 @@
+1528447227310	Rename type 'HelloWorldEmitter'
+1528456048198	Rename type 'HelloWorldEmitterService'
+1528456066137	Rename type 'UppercaseTransformerService'
+1528477158306	Delete element
+1528488718254	Encapsulate field 'type'
+1528494409425	Rename type 'ContactBinding'
+1528592642369	Rename local variable 'end'
+1528592651513	Rename local variable 'start'
+1528600847582	Delete element
+1528621215213	Copy compilation unit
+1528621240355	Copy compilation unit
+1528621681324	Rename field 'saveContactEventSender'
+1528621693501	Rename field 'deleteContactEventSender'
+1528621718152	Rename field 'notSavedContactEventSender'
+1528622219343	Copy compilation unit
+1528624326052	Rename local variable 'c'

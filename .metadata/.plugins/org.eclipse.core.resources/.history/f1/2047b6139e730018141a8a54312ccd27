@@ -1,0 +1,39 @@
+package com.verisure.vcp.newmicroservice.api.dto;
+
+import java.time.LocalDate;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Sample DTO object. <b>Please remove for actual project implementation.</b>
+ *
+ * @since 1.0.0
+ * @author FaaS [faas@securitasdirect.es]
+ *
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ItemDTO extends BaseDTO {
+
+    @ApiModelProperty(notes = "Operator id ", required = true)
+    private String operator;
+
+    @ApiModelProperty(notes = "Profile name ", required = true)
+    private String name;
+    
+    @ApiModelProperty(notes = "Profile lastname ", required = true)
+    private String lastname;
+    
+    @ApiModelProperty(notes = "Profile birthday ", required = true)
+    private LocalDate birthday;
+    
+    @ApiModelProperty(notes = "Profile details ", required = false)
+    private String details;
+
+}

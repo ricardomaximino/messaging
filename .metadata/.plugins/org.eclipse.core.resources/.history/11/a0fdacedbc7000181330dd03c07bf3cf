@@ -1,0 +1,78 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Contact;
+import com.brasajava.rabbitstreamreactiveone.domain.ContactEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.ContactRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class ContactService {
+
+	@Autowired
+	private ContactRepository repository;
+
+	@Autowired
+	private ContactSenderService sender;
+
+
+	public Mono<Contact> save(Contact contact) {
+		sender.sendContactCreatedEvent(new ContactEvent("01","Created", contact.getId(), contact, LocalDateTime.now()));
+		return repository.save(contact);
+//		return repository.findById(contact.getId()).flatMap(c -> {
+//			if(c != null) {
+//				return repository.save(c).map(con -> {
+//					if(con != null) {
+//						sender.sendContactUpdatedEvent(new ContactEvent("04", "Updated", c.getId(), c, LocalDateTime.now()));
+//						return con;
+//					}else {
+//						sender.sendContactNotSavedEvent(new ContactEvent("03", "Not saved", c.getId(), c, LocalDateTime.now()));
+//						return null;
+//					}
+//				});
+//			}else {
+//				sender.sendContactCreatedEvent(new ContactEvent("01","Created", contact.getId(), contact, LocalDateTime.now()));
+//				return repository.save(c).map(con -> {
+//					if(con != null) {
+//						sender.sendContactUpdatedEvent(new ContactEvent("01", "Saved", con.getId(), con, LocalDateTime.now()));
+//						return con;
+//					}else {
+//						sender.sendContactNotSavedEvent(new ContactEvent("03", "Not saved", contact.getId(), contact, LocalDateTime.now()));
+//						return null;
+//					}
+//				});
+//			}
+//		});
+	}
+	
+	public Mono<Contact> findById(String id){
+		return repository.findById(id);
+	}
+	
+	public Flux<Contact> findAll(){
+		return repository.findAll();
+	}
+
+	public Mono<Long> count(){
+		return repository.count();
+	}
+	
+	public Mono<Boolean> deleteById(String id){
+		return repository.findById(id).flatMap(c -> {
+			if(c != null) {
+				return repository.deleteById(id).map(d -> {
+					sender.sendContactDeleteEvent(new ContactEvent("05", "Deleted", c.getId(), c, LocalDateTime.now()));
+					return new Boolean(true);});
+			}else {
+				return Mono.just(new Boolean(false));
+			}
+			});
+	}
+	
+}

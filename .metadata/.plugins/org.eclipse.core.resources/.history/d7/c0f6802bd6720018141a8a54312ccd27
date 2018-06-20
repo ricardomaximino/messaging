@@ -1,0 +1,5 @@
+package com.brasajava.springbootreactivewebsockettwo.utils;
+
+public class ChannelBindingsConstant {
+
+}

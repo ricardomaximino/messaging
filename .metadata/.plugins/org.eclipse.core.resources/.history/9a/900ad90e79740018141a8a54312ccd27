@@ -1,0 +1,51 @@
+package com.verisure.vcp.newmicroservice.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.Operator;
+import org.springframework.stereotype.Service;
+
+import com.verisure.vcp.newmicroservice.domain.repository.OperatorRepository;
+import com.verisure.vcp.newmicroservice.service.OperatorService;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+@Slf4j
+public class OperatorServiceImpl implements OperatorService{
+
+	@Autowired
+	private OperatorRepository operatorRepository;
+	
+	@Override
+	public Mono<Operator> save(Operator operator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Boolean> deleteById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Mono<Operator> findById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Operator> findBySkills(String skillsId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Flux<Operator> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

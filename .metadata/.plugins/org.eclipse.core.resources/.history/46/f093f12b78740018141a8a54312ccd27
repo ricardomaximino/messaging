@@ -1,0 +1,117 @@
+package com.verisure.vcp.newmicroservice.service;
+
+import java.util.List;
+
+import com.verisure.vcp.newmicroservice.domain.entity.Activity;
+import com.verisure.vcp.newmicroservice.domain.entity.Contact;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+
+/**
+ * The Interface ContactService.
+ */
+public interface ContactService {
+	
+	/**
+	 * Save.
+	 *
+	 * @param contact the contact
+	 * @return the mono
+	 */
+	public Mono<Contact> save(Contact contact);
+	
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the mono
+	 */
+	public Mono<Contact> findById(String id);
+	
+	/**
+	 * Delete by id.
+	 *
+	 * @param id the id
+	 * @return the mono
+	 */
+	public Mono<Boolean> deleteById(String id);
+	
+	/**
+	 * Find all.
+	 *
+	 * @return the flux
+	 */
+	public Flux<Contact> findAll();
+	
+	/**
+	 * Find by profile id.
+	 *
+	 * @param profileId the profile id
+	 * @return the flux
+	 */
+	public Flux<Contact> findByProfileId(String profileId);
+	
+	/**
+	 * Find by result id.
+	 *
+	 * @param ResultId the result id
+	 * @return the flux
+	 */
+	public Flux<Contact> findByResultId(String ResultId);
+	
+	/**
+	 * Find by origin.
+	 *
+	 * @param origin the origin
+	 * @return the flux
+	 */
+	public Flux<Contact> findByOrigin(String origin);
+	
+	/**
+	 * Adds the activity.
+	 *
+	 * @param contactId the contact id
+	 * @param activity the activity
+	 * @return the mono
+	 */
+	public Mono<Contact> addActivity(String contactId, Activity activity);
+	
+	/**
+	 * Adds the activities.
+	 *
+	 * @param contactId the contact id
+	 * @param activityList the activity list
+	 * @return the mono
+	 */
+	public Mono<Contact> addActivities(String contactId, List<Activity> activityList);
+	
+	/**
+	 * Sets the activities.
+	 *
+	 * @param contactId the contact id
+	 * @param activityList the activity list
+	 * @return the mono
+	 */
+	public Mono<Contact> setActivities(String contactId, List<Activity> activityList);
+	
+	/**
+	 * Belong this activity to this contact.
+	 *
+	 * @param contactId the contact id
+	 * @param activityId the activity id
+	 * @return the mono
+	 */
+	public Mono<Boolean> belongThisActivityToThisContact(String contactId, String activityId); 
+	
+	
+	/**
+	 * Removes the activity.
+	 *
+	 * @param activityId the activity id
+	 * @return the mono
+	 */
+	public Mono<Contact> removeActivity(String contactId, String activityId);
+
+}

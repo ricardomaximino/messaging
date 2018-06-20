@@ -1,0 +1,56 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Person;
+import com.brasajava.rabbitstreamreactiveone.domain.PersonEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.PersonRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class PersonService {
+		
+	@Autowired
+	private PersonRepository repository;
+	@Autowired
+	private PersonSenderService sender;
+	
+	public Mono<Person> save(Person person){
+		sender.sendPersonSaveEvent(new PersonEvent());
+		return null;
+	}
+	
+	
+	public Mono<Boolean> deleteById(String id){
+		return repository.findById(id).flatMap(p -> {
+			if(p != null) {
+				return repository.deleteById(id).flatMap(d -> { 
+					sender.sendPersonDeleteEvent(new PersonEvent("05", "Deleted", p.getId(), p, LocalDateTime.now()));
+					return Mono.just(true);});
+			}
+			return Mono.just(true);
+		});
+	}
+		
+	public Mono<Person> findById(String id){
+		return repository.findById(id);
+	}
+	
+	public Flux<Person> findAll(){
+		return repository.findAll();
+	}
+	
+	public Flux<Person> findByCreateDate(LocalDateTime date){
+		return repository.findByCreateDate(date);
+	}
+	
+	public Flux<Person> findByUpdateDate(LocalDateTime date){
+		return repository.findByUpdateDate(date);
+	}
+	
+}

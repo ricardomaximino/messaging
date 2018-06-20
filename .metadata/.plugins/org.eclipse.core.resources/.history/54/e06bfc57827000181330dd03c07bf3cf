@@ -1,0 +1,27 @@
+package com.brasajava.rabbitstreamreactiveone.channel;
+
+import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.messaging.MessageChannel;
+
+public interface ContactSenderBinding {
+	String DELETED_CONTACT = "deletedContact";
+	String CREATED_CONTACT = "createdContact";
+	String SAVED_CONTACT = "savedContact";
+	String NOT_SAVED_CONTACT = "notSavedContact";
+	String UPDATED_CONTACT = "updatedContact";
+	
+	@Output(DELETED_CONTACT)
+	public MessageChannel deletedContact();
+	
+	@Output(CREATED_CONTACT)
+	public MessageChannel createdContact();
+	
+	@Output(SAVED_CONTACT)
+	public MessageChannel savedContact();
+	
+	@Output(UPDATED_CONTACT)
+	public MessageChannel updatedContact();
+
+	@Output(NOT_SAVED_CONTACT)
+	public MessageChannel notSavedContact();
+}

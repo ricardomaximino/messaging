@@ -1,0 +1,7 @@
+# For standard Spring Boot parameters see:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+
+server:
+  servlet:
+    session:
+      timeout: 1000

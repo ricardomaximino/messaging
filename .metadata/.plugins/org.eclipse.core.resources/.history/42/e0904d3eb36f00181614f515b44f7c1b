@@ -1,0 +1,73 @@
+package com.brasajava.rabbitstreamreactiveone.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.brasajava.rabbitstreamreactiveone.domain.Contact;
+import com.brasajava.rabbitstreamreactiveone.domain.ContactEvent;
+import com.brasajava.rabbitstreamreactiveone.repository.ContactRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class ContactService {
+
+	@Autowired
+	private ContactRepository repository;
+
+	@Autowired
+	private ContactSenderService sender;
+
+
+	public Mono<Contact> save(Contact contact) {
+		return repository.findById(contact.getId()).flatMap(c -> {
+			if(c != null) {
+				return repository.save(c).map(con -> {
+					if(con != null) {
+						sender.sendContactUpdatedEvent(new ContactEvent("04", "Updated", c.getId(), c));
+						return con;
+					}else {
+						sender.sendContactNotSavedEvent(new ContactEvent("03", "Not saved", c.getId(), c));
+						return null;
+					}
+				});
+			}else {
+				sender.sendContactCreatedEvent(new ContactEvent("01","Created", contact.getId(), contact));
+				return repository.save(c).map(con -> {
+					if(con != null) {
+						sender.sendContactUpdatedEvent(new ContactEvent("01", "Saved", con.getId(), con));
+						return con;
+					}else {
+						sender.sendContactNotSavedEvent(new ContactEvent("03", "Not saved", contact.getId(), contact));
+						return null;
+					}
+				});
+			}
+		});
+	}
+	
+	public Mono<Contact> findById(String id){
+		return repository.findById(id);
+	}
+	
+	public Flux<Contact> findAll(){
+		return repository.findAll();
+	}
+
+	public Mono<Long> count(){
+		return repository.count();
+	}
+	
+	public Mono<Boolean> deleteById(String id){
+		return repository.findById(id).flatMap(c -> {
+			if(c != null) {
+				return repository.deleteById(id).flatMap(d -> { 
+					sender.sendContactDeleteEvent(new ContactEvent("05", "Deleted", c.getId(), c));
+					return Mono.just(true);});
+			}
+			return Mono.just(true);
+		});
+	}
+	
+}
